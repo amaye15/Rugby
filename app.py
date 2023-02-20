@@ -24,7 +24,7 @@ def main():
     ### New Game ###
     if menu_choice == "Nouveau":
         # Title
-        sl.subheader("Nouveau Match !!! \n Ajoutez les informations suivantes pendant le match. ")
+        sl.header("Nouveau Match !!! \n Ajoutez les informations suivantes pendant le match. ")
         
         # Match Data
         match_worksheet = gc.open_by_url("https://docs.google.com/spreadsheets/d/1F0NI-6_oi_geBDIJge9b6FXipMUyDw3XR90rHDALCx8/edit").sheet1
@@ -33,33 +33,48 @@ def main():
         # If empty, create empty dataframe
         if match_data.empty:
             match_data = pd.DataFrame(columns=["Lieu du match", "Nom de l'adversaire", "Temps", "Mi-Temps", "Série", "Possession",  "Plaquage", "Action", "Zone"])
+        
+        # Before Match
+        sl.subheader("Avant le match")
 
-        # Home or Away Game
-        place = ["Domicile ", "Extérieur"]
-        place_choice = sl.selectbox("Lieu du match", place)
+        left, right = sl.columns([1, 1])
 
-        # Opponent
-        teams = ["Autre", "Pujols", "Trentels", "Begles", "Clairac", "Agenais", "Villeneuve-de-Rivière"]
-        team_choice = sl.selectbox("Nom de l'adversaire", teams)
+        with left:
+            # Home or Away Game
+            place = ["Domicile ", "Extérieur"]
+            place_choice = sl.selectbox("Lieu du match", place)
 
-        # Possesion of the ball
-        ball = ["Nantes", "Adversaire"]
-        ball_choice = sl.selectbox("Possession de balle", ball)
+        with right:
+            # Opponent
+            teams = ["Autre", "Pujols", "Trentels", "Begles", "Clairac", "Agenais", "Villeneuve-de-Rivière"]
+            team_choice = sl.selectbox("Nom de l'adversaire", teams)
+
+        # During Match
+        sl.subheader("Pendant le match")
 
         # Tackle
         tackle = ["1er", "2ème", "3ème", "4ème", "5ème", "6ème"]
         tackle_choice = sl.selectbox("Plaquage", tackle)
 
-        # Action or Event taken place
-        action = ["Plaquage", "Coup de pied", "Pénalité",
-                  "Faute", "Essai", "Essai et Transformation", 
-                  "Sortie de balle", "Transfert de la balle", 
-                  "Plaqué en but"]
-        action_choice = sl.selectbox("Action", action)
+        left,center, right = sl.columns([1, 1, 1])
 
-        # Zone of field
-        zone = ["Nantes 40m", "Adversaire 40m", "Milieu"]
-        zone_choice = sl.selectbox("Zone", zone)
+        with left:
+            # Possesion of the ball
+            ball = ["Nantes", "Adversaire"]
+            ball_choice = sl.selectbox("Possession de balle", ball)
+
+        with center:
+
+            # Action or Event taken place
+            action = ["Plaquage", "Coup de pied", "Pénalité/Faute",
+                    "Essai (4pt)", "Essai et Transformation (6pt)", 
+                    "Sortie de balle", "Plaquage (en but)"]
+            action_choice = sl.selectbox("Action", action)
+
+        with left:
+            # Zone of field
+            zone = ["Nantes 40m", "Adversaire 40m", "Milieu"]
+            zone_choice = sl.selectbox("Zone", zone)
         
         # Update Results
         if sl.button("Mise à jour des résultats"):
