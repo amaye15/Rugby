@@ -86,13 +86,13 @@ def main():
             # Automatically determine series
             if match_data.empty:
                 event = 1
-            elif match_data["Possession"].values[-1] == ball_choice and match_data["Evénement"].values[-1] == "Plaquage" and action_choice == "Plaquage":
+            elif match_data["Possession"].values[-1] == ball_choice and match_data["Action"].values[-1] == "Plaquage" and action_choice == "Plaquage":
                 event = match_data["Série"].values[-1] + 1
-            elif match_data["Possession"].values[-1] == ball_choice and match_data["Evénement"].values[-1] == "Plaquage" and action_choice == "Coup de pied":
+            elif match_data["Possession"].values[-1] == ball_choice and match_data["Action"].values[-1] == "Plaquage" and action_choice == "Coup de pied":
                 event = match_data["Série"].values[-1] + 1
-            elif match_data["Possession"].values[-1] == ball_choice and match_data["Evénement"].values[-1] == "Plaquage" and action_choice == "Essai (4pt)":
+            elif match_data["Possession"].values[-1] == ball_choice and match_data["Action"].values[-1] == "Plaquage" and action_choice == "Essai (4pt)":
                 event = match_data["Série"].values[-1] + 1
-            elif match_data["Possession"].values[-1] == ball_choice and match_data["Evénement"].values[-1] == "Plaquage" and action_choice == "Essai et Transformation (6pt)":
+            elif match_data["Possession"].values[-1] == ball_choice and match_data["Action"].values[-1] == "Plaquage" and action_choice == "Essai et Transformation (6pt)":
                 event = match_data["Série"].values[-1] + 1
             else:
                 event = 1
