@@ -32,7 +32,7 @@ def main():
 
         # If empty, create empty dataframe
         if match_data.empty:
-            match_data = pd.DataFrame(columns=["Lieu du match", "Nom de l'adversaire", "Temps", "Mi-Temps", "Série", "Possession",  "Plaquage", "Action", "Zone"])
+            match_data = pd.DataFrame(columns=["Lieu du match", "Nom de l'adversaire", "Temps", "Mi-Temps", "Série", "Possession",  "Evénement", "Action", "Zone"])
         
         ### Before Match ###
         sl.subheader("Avant le match")
@@ -52,10 +52,6 @@ def main():
         ### During Match ###
         sl.subheader("Pendant le match")
 
-        # Tackle
-        tackle = ["1er", "2ème", "3ème", "4ème", "5ème", "6ème"]
-        tackle_choice = sl.selectbox("Plaquage", tackle)
-
         left,center, right = sl.columns([1, 1, 1])
 
         with left:
@@ -67,8 +63,8 @@ def main():
 
             # Action or Event taken place
             action = ["Plaquage", "Coup de pied", "Pénalité/Faute",
-                    "Essai (4pt)", "Essai et Transformation (6pt)", 
-                    "Sortie de balle", "Plaquage (en but)"]
+                      "Essai (4pt)", "Essai et Transformation (6pt)", 
+                      "Sortie de balle", "Plaquage (en but)"]
             action_choice = sl.selectbox("Action", action)
 
         with right:
@@ -78,6 +74,7 @@ def main():
         
         # Update Results
         if sl.button("Mise à jour des résultats"):
+            
             # Automatically determine series
             if match_data.empty:
                 series = 1
@@ -85,6 +82,21 @@ def main():
                 series = match_data["Série"].values[-1]
             else:
                 series = match_data["Série"].values[-1] + 1
+
+            # Automatically determine series
+            if match_data.empty:
+                event = 1
+            elif match_data["Possession"].values[-1] == ball_choice and match_data["Evénement"].values[-1] == "Plaquage" and action_choice == "Plaquage":
+                event = match_data["Série"].values[-1] + 1
+            elif match_data["Possession"].values[-1] == ball_choice and match_data["Evénement"].values[-1] == "Plaquage" and action_choice == "Coup de pied":
+                event = match_data["Série"].values[-1] + 1
+            elif match_data["Possession"].values[-1] == ball_choice and match_data["Evénement"].values[-1] == "Plaquage" and action_choice == "Essai (4pt)":
+                event = match_data["Série"].values[-1] + 1
+            elif match_data["Possession"].values[-1] == ball_choice and match_data["Evénement"].values[-1] == "Plaquage" and action_choice == "Essai et Transformation (6pt)":
+                event = match_data["Série"].values[-1] + 1
+            else:
+                event = 1
+
             # Automatically determine half
             if match_data.empty:
                 half = "Première"
@@ -92,6 +104,7 @@ def main():
                 half = "Première"
             else:
                 half = "Deuxième"
+
             # Add Data
             match_data = match_data.append({"Lieu du match": place_choice,
                          "Nom de l'adversaire": team_choice,
@@ -99,7 +112,7 @@ def main():
                          "Mi-Temps": half,
                          "Série": series,
                          "Possession": ball_choice,
-                         "Plaquage": tackle_choice, 
+                         "Evénement": event, 
                          "Action": action_choice, 
                          "Zone": zone_choice}, ignore_index=True)
             match_worksheet.update([match_data.columns.values.tolist()] + match_data.values.tolist())
@@ -107,7 +120,7 @@ def main():
             sl.experimental_rerun()
         # Show Data
         sl.subheader("\n Résultats")
-        sl.dataframe(match_data[["Série", "Possession", "Plaquage", "Action", "Zone"]], use_container_width=True)
+        sl.dataframe(match_data[["Série", "Evénement", "Possession", "Action", "Zone"]], use_container_width=True)
         #To-DO
         ### Delete Row ###
         #left, _, _ = sl.columns([1.3, 2, 2])
