@@ -34,7 +34,7 @@ def main():
         if match_data.empty:
             match_data = pd.DataFrame(columns=["Lieu du match", "Nom de l'adversaire", "Temps", "Mi-Temps", "Série", "Possession",  "Plaquage", "Action", "Zone"])
         
-        # Before Match
+        ### Before Match ###
         sl.subheader("Avant le match")
 
         left, right = sl.columns([1, 1])
@@ -49,7 +49,7 @@ def main():
             teams = ["Autre", "Pujols", "Trentels", "Begles", "Clairac", "Agenais", "Villeneuve-de-Rivière"]
             team_choice = sl.selectbox("Nom de l'adversaire", teams)
 
-        # During Match
+        ### During Match ###
         sl.subheader("Pendant le match")
 
         # Tackle
@@ -71,7 +71,7 @@ def main():
                     "Sortie de balle", "Plaquage (en but)"]
             action_choice = sl.selectbox("Action", action)
 
-        with left:
+        with right:
             # Zone of field
             zone = ["Nantes 40m", "Adversaire 40m", "Milieu"]
             zone_choice = sl.selectbox("Zone", zone)
@@ -123,7 +123,7 @@ def main():
             #match_worksheet.update([match_data.columns.values.tolist()] + match_data.values.tolist())
             #sl.experimental_rerun()"""
 
-        ### Last Section ###
+        ### After Match ###
         sl.subheader("Fin du match")
         left_v2, _, _ = sl.columns([1.35, 1, 1])
         with left_v2:
