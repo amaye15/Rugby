@@ -159,10 +159,6 @@ def main():
             historical_worksheet.update([historical_data.columns.values.tolist()] + historical_data.values.tolist())
             sl.experimental_rerun()
 
-
-
-
-    
     return
 if __name__ == "__main__":
     main()
