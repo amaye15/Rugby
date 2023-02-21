@@ -95,6 +95,8 @@ def main():
                 event = match_data["Evénement"].values[-1] + 1
             elif match_data["Possession"].values[-1] == ball_choice and match_data["Action"].values[-1] == "Plaquage" and action_choice == "Essai et Transformation (6pt)":
                 event = match_data["Evénement"].values[-1] + 1
+            elif match_data["Possession"].values[-1] == ball_choice and match_data["Action"].values[-1] == "Plaquage" and action_choice == "Pénalité/Faute":
+                event = match_data["Evénement"].values[-1] + 1
             else:
                 event = 1
 
