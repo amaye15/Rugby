@@ -118,6 +118,9 @@ def main():
             match_worksheet.update([match_data.columns.values.tolist()] + match_data.values.tolist())
             # Refresh Page
             sl.experimental_rerun()
+        
+        sl.text("""Note : S'il y a une faute ou une pénalité pour "possession de balle", mettez l'équipe qui a fait la faute ou la pénalité.""")
+        
         # Show Data
         sl.subheader("\n Résultats")
         sl.dataframe(match_data[["Série", "Evénement", "Possession", "Action", "Zone"]], use_container_width=True)
@@ -128,7 +131,6 @@ def main():
             row = match_data.index.tolist()
             row_choice = sl.selectbox("Ligne", row)
             delete_button = sl.button("Supprimer une ligne")
-            sl.text("Note : le changement n'apparaîtra pas tant que vous n'aurez pas ajouté une nouvelle ligne.")
         # Delete button
         if delete_button: 
             match_worksheet.delete_row(row_choice + 2)
