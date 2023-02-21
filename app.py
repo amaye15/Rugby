@@ -44,7 +44,7 @@ def main():
         # Title
         _, center, _ = sl.columns([1, 1, 1])
         with center:
-            sl.header("Score \n Nantes - {nantes_score} \n Adversaire - {adversaire_score}")
+            sl.header(f"Score \n Nantes - {nantes_score} \n Adversaire - {adversaire_score}")
 
         left,_, right = sl.columns([1, 1, 1])
         with left:
