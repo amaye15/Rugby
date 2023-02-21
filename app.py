@@ -160,6 +160,7 @@ def main():
             match_data["Winner"] = winner_choice
             historical_data = historical_data.append(match_data, ignore_index=True)
             historical_worksheet.update([historical_data.columns.values.tolist()] + historical_data.values.tolist())
+            match_worksheet.clear()
             sl.experimental_rerun()
 
     return
