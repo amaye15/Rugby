@@ -119,7 +119,7 @@ def main():
             # Refresh Page
             sl.experimental_rerun()
         
-        sl.text("""Note : S'il y a une faute ou une pénalité pour "possession de balle", mettez l'équipe qui a fait la faute ou la pénalité.""")
+        sl.text("""Note : S'il y a une faute ou une pénalité pour "possession de balle",\nmettez l'équipe qui a fait la faute ou la pénalité.""")
         
         # Show Data
         sl.subheader("\n Résultats")
