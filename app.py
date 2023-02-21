@@ -131,7 +131,7 @@ def main():
             sl.text("Note : le changement n'apparaîtra pas tant que vous n'aurez pas ajouté une nouvelle ligne.")
         # Delete button
         if delete_button: 
-            match_worksheet.delete_row(row_choice + 1)
+            match_worksheet.delete_row(row_choice + 2)
             sl.experimental_rerun()
 
         ### After Match ###
