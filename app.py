@@ -121,20 +121,18 @@ def main():
         # Show Data
         sl.subheader("\n Résultats")
         sl.dataframe(match_data[["Série", "Evénement", "Possession", "Action", "Zone"]], use_container_width=True)
-        #To-DO
+        
         ### Delete Row ###
-        #left, _, _ = sl.columns([1.3, 2, 2])
-        #with left:
-            #row = match_data.index.tolist()
-            #row_choice = sl.selectbox("Ligne", row)
-            #delete_button = sl.button("Supprimer une ligne")
-            #sl.text("Note : le changement n'apparaîtra pas tant que vous n'aurez pas ajouté une nouvelle ligne.")
+        left, _, _ = sl.columns([1.3, 2, 2])
+        with left:
+            row = match_data.index.tolist()
+            row_choice = sl.selectbox("Ligne", row)
+            delete_button = sl.button("Supprimer une ligne")
+            sl.text("Note : le changement n'apparaîtra pas tant que vous n'aurez pas ajouté une nouvelle ligne.")
         # Delete button
-        #if delete_button: 
-            #previous_values = match_data.iloc[row_choice].values
-            #match_data.iloc[row_choice] = 
-            #match_worksheet.update([match_data.columns.values.tolist()] + match_data.values.tolist())
-            #sl.experimental_rerun()"""
+        if delete_button: 
+            match_worksheet.delete(row_choice)
+            sl.experimental_rerun()
 
         ### After Match ###
         sl.subheader("Fin du match")
