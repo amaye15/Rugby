@@ -25,8 +25,12 @@ def main():
     ### New Game ###
     if menu_choice == "Nouveau":
         # Title
-        sl.header("Nouveau Match !!! \n Ajoutez les informations suivantes pendant le match. ")
-        
+        sl.header("Score ")
+        left, right = sl.columns([1, 1])
+        with left:
+            sl.subheader(f"Nantes - ")
+        with right:
+            sl.subheader(f"Adversaire - ")
         # Match Data
         match_worksheet = gc.open_by_url("https://docs.google.com/spreadsheets/d/1F0NI-6_oi_geBDIJge9b6FXipMUyDw3XR90rHDALCx8/edit").sheet1
         match_data = pd.DataFrame(match_worksheet.get_all_records())
