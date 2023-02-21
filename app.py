@@ -53,7 +53,7 @@ def main():
             sl.subheader(f"Adversaire")
         
 
-        _, left, _, _, right = sl.columns([1, 5, 1, 3, 1])
+        _, left, _, _, right = sl.columns([1, 5, 1, 1, 5])
         with left:
             sl.subheader(f" {nantes_score} ")
         with right:
