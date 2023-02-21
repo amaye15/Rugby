@@ -37,9 +37,9 @@ def main():
         if match_data.empty:
             nantes_score = 0
             adversaire_score = 0
-        if "Essai (4pt)" in match_data["Action"].to_list() or "Essai et Transformation (6pt)" in match_data["Action"].to_list():
-            nantes_score = (len(match_data.loc[(match_data["Possession"] == "Nantes") & (match_data["Action"] == "Essai (4pt)")]) * 4) + (len(match_data.loc[(match_data["Possession"] == "Nantes") & (match_data["Action"] == "Essai et Transformation (6pt)")]) * 6)
-            adversaire_score = (len(match_data.loc[(match_data["Possession"] == "Adversaire") & (match_data["Action"] == "Essai (4pt)")]) * 4) + (len(match_data.loc[(match_data["Possession"] == "Adversaire") & (match_data["Action"] == "Essai et Transformation (6pt)")]) * 6)
+        if "Essai (4pt)" in match_data["Action"].to_list() or "Essai et Transformation (6pt)" in match_data["Action"].to_list() or "Drop (1pt)" in match_data["Action"].to_list():
+            nantes_score = (len(match_data.loc[(match_data["Possession"] == "Nantes") & (match_data["Action"] == "Essai (4pt)")]) * 4) + (len(match_data.loc[(match_data["Possession"] == "Nantes") & (match_data["Action"] == "Essai et Transformation (6pt)")]) * 6) + (len(match_data.loc[(match_data["Possession"] == "Nantes") & (match_data["Action"] == "Drop (1pt)")]) * 1)
+            adversaire_score = (len(match_data.loc[(match_data["Possession"] == "Adversaire") & (match_data["Action"] == "Essai (4pt)")]) * 4) + (len(match_data.loc[(match_data["Possession"] == "Adversaire") & (match_data["Action"] == "Essai et Transformation (6pt)")]) * 6) + (len(match_data.loc[(match_data["Possession"] == "Adversaire") & (match_data["Action"] == "Drop (1pt)")]) * 1)
 
         # Title
         sl.header("Score ")
@@ -79,7 +79,7 @@ def main():
             # Action or Event taken place
             action = ["Plaquage", "Coup de pied", "Pénalité/Faute",
                       "Essai (4pt)", "Essai et Transformation (6pt)", 
-                      "Sortie de balle", "Plaquage (en but)"]
+                      "Sortie de balle", "Plaquage (en but)", "Drop (1pt)"]
             action_choice = sl.selectbox("Action", action)
 
         with right:
@@ -108,6 +108,8 @@ def main():
             elif match_data["Possession"].values[-1] == ball_choice and match_data["Action"].values[-1] == "Plaquage" and action_choice == "Essai (4pt)":
                 event = match_data["Evénement"].values[-1] + 1
             elif match_data["Possession"].values[-1] == ball_choice and match_data["Action"].values[-1] == "Plaquage" and action_choice == "Essai et Transformation (6pt)":
+                event = match_data["Evénement"].values[-1] + 1
+            elif match_data["Possession"].values[-1] == ball_choice and match_data["Action"].values[-1] == "Plaquage" and action_choice == "Drop (1pt)":
                 event = match_data["Evénement"].values[-1] + 1
             elif match_data["Possession"].values[-1] == ball_choice and match_data["Action"].values[-1] == "Plaquage" and action_choice == "Pénalité/Faute":
                 event = match_data["Evénement"].values[-1] + 1
