@@ -48,16 +48,9 @@ def main():
 
         left,_, right = sl.columns([1, 1, 1])
         with left:
-            sl.subheader(f"Nantes")
+            sl.subheader(f"Nantes - {nantes_score}")
         with right:
-            sl.subheader(f"Adversaire")
-        
-
-        _, left, right, _, _  = sl.columns([1, 10, 1, 1, 1])
-        with left:
-            sl.subheader(f" {nantes_score} ")
-        with right:
-            sl.subheader(f" {adversaire_score} ")
+            sl.subheader(f"Adversaire - {adversaire_score}")
         
         ### Before Match ###
         sl.subheader("Avant le match")
