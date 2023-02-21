@@ -7,7 +7,8 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 
 def main():
     # Connect to Google
-    gc = gspread.service_account(filename="cred.json")
+    #gc = gspread.service_account(filename="cred.json")
+    gc = gspread.service_account_from_dict(sl.secrets["google_drive_api"])
 
     ### Image ###
     _, center, _ = sl.columns([1, 1, 1])
