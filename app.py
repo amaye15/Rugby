@@ -24,20 +24,30 @@ def main():
 
     ### New Game ###
     if menu_choice == "Nouveau":
-        # Title
-        sl.header("Score ")
-        left, right = sl.columns([1, 1])
-        with left:
-            sl.subheader(f"Nantes - ")
-        with right:
-            sl.subheader(f"Adversaire - ")
+
         # Match Data
         match_worksheet = gc.open_by_url("https://docs.google.com/spreadsheets/d/1F0NI-6_oi_geBDIJge9b6FXipMUyDw3XR90rHDALCx8/edit").sheet1
         match_data = pd.DataFrame(match_worksheet.get_all_records())
 
         # If empty, create empty dataframe
         if match_data.empty:
-            match_data = pd.DataFrame(columns=["Lieu du match", "Nom de l'adversaire", "Temps", "Mi-Temps", "Série", "Possession",  "Evénement", "Action", "Zone"])
+            match_data = pd.DataFrame(columns=["Lieu du match", "Nom de l'adversaire", "Temps", "Mi-Temps", "Série", "Possession",  "Evénement", "Action", "Zone", "Nantes Score", "Adversaire Score"])
+
+        # Automatically determine series
+        if match_data.empty:
+            nantes_score = 0
+            adversaire_score = 0
+        if "Essai (4pt)" in match_data["Action"].to_list() or "Essai et Transformation (6pt)" in match_data["Action"].to_list():
+            nantes_score = (len(match_data.loc[(match_data["Possession"] == "Nantes") & (match_data["Action"] == "Essai (4pt)")]) * 4) + (len(match_data.loc[(match_data["Possession"] == "Nantes") & (match_data["Action"] == "Essai et Transformation (6pt)")]) * 6)
+            adversaire_score = (len(match_data.loc[(match_data["Possession"] == "Adversaire") & (match_data["Action"] == "Essai (4pt)")]) * 4) + (len(match_data.loc[(match_data["Possession"] == "Adversaire") & (match_data["Action"] == "Essai et Transformation (6pt)")]) * 6)
+
+        # Title
+        sl.header("Score ")
+        left, right = sl.columns([1, 1])
+        with left:
+            sl.subheader(f"Nantes: {nantes_score}")
+        with right:
+            sl.subheader(f"Adversaire: {adversaire_score}")
         
         ### Before Match ###
         sl.subheader("Avant le match")
@@ -159,7 +169,7 @@ def main():
 
             # If empty, create empty dataframe
             if historical_data.empty:
-                historical_data = pd.DataFrame(columns=["Lieu du match", "Nom de l'adversaire", "Temps", "Mi-Temps", "Série", "Possession",  "Plaquage", "Action", "Zone", "Winner"])
+                historical_data = pd.DataFrame(columns=["Lieu du match", "Nom de l'adversaire", "Temps", "Mi-Temps", "Série", "Possession",  "Plaquage", "Action", "Zone", "Nantes Score", "Adversaire Score", "Winner"])
         
             match_data["Winner"] = winner_choice
             historical_data = historical_data.append(match_data, ignore_index=True)
