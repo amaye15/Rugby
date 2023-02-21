@@ -44,13 +44,13 @@ def main():
         # Title
         _, center, _ = sl.columns([1, 1, 1])
         with center:
-            sl.header(f"Score \n Nantes - {nantes_score} \n Adversaire - {adversaire_score}")
+            sl.header(f"Score")
 
-        left,_, right = sl.columns([1, 1, 1])
+        left, _, right = sl.columns([1, 1, 1])
         with left:
-            sl.subheader(f"Nantes - {nantes_score}")
+            sl.subheader(f"Nantes:   {nantes_score}")
         with right:
-            sl.subheader(f"Adversaire - {adversaire_score}")
+            sl.subheader(f"Adversaire:   {adversaire_score}")
         
         ### Before Match ###
         sl.subheader("Avant le match")
