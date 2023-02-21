@@ -42,12 +42,15 @@ def main():
             adversaire_score = (len(match_data.loc[(match_data["Possession"] == "Adversaire") & (match_data["Action"] == "Essai (4pt)")]) * 4) + (len(match_data.loc[(match_data["Possession"] == "Adversaire") & (match_data["Action"] == "Essai et Transformation (6pt)")]) * 6) + (len(match_data.loc[(match_data["Possession"] == "Adversaire") & (match_data["Action"] == "Drop (1pt)")]) * 1)
 
         # Title
-        sl.header("Score ")
+        _, center, _ = sl.columns([1, 1, 1])
+        with center:
+            sl.header("Score ")
+
         left, right = sl.columns([1, 1])
         with left:
-            sl.subheader(f"Nantes: {nantes_score}")
+            sl.subheader(f"Nantes:      {nantes_score}")
         with right:
-            sl.subheader(f"Adversaire: {adversaire_score}")
+            sl.subheader(f"Adversaire:      {adversaire_score}")
         
         ### Before Match ###
         sl.subheader("Avant le match")
