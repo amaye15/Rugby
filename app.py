@@ -131,7 +131,9 @@ def main():
                          "Possession": ball_choice,
                          "Evénement": event, 
                          "Action": action_choice, 
-                         "Zone": zone_choice}, ignore_index=True)
+                         "Zone": zone_choice,
+                         "Nantes Score": nantes_score,
+                         "Adversaire Score": adversaire_score}, ignore_index=True)
             match_worksheet.update([match_data.columns.values.tolist()] + match_data.values.tolist())
             # Refresh Page
             sl.experimental_rerun()
