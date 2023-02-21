@@ -46,7 +46,7 @@ def main():
         with center:
             sl.header("Score ")
 
-        left,_, right = sl.columns([1, 1])
+        left,_, right = sl.columns([1, 1, 1])
         with left:
             sl.subheader(f"Nantes")
             sl.subheader(f" {nantes_score} ")
