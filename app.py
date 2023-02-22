@@ -11,6 +11,11 @@ def highlight(value):
         return ['background-color : #3392FF']
     else:
         return ['background-color : #FF4233']
+    
+def highlight_greaterthan(s, threshold, column):
+    is_max = pd.Series(data=False, index=s.index)
+    is_max[column] = s.loc[column] == threshold
+    return ['background-color : #3392FF' if is_max.any() else 'background-color : #FF4233' for v in is_max]
 
 def main():
     # Connect to Google
@@ -159,7 +164,7 @@ def main():
         sl.subheader("\n Résultats")
         #st.markdown('<style>div[title="OK"] { color: green; } div[title="KO"] { color: red; } .data:hover{ background:rgb(243 246 255)}</style>', unsafe_allow_html=True)
         #'background-color : #3392FF' if match_data[["Possession"]] == "Nantes" else 'background-color : #FF4233'
-        sl.dataframe(match_data[["Série", "Evénement", "Possession", "Action", "Zone"]].style.apply(highlight, axis=1), use_container_width=True)
+        sl.dataframe(match_data[["Série", "Evénement", "Possession", "Action", "Zone"]].style.apply(highlight_greaterthan, threshold="Nantes", column=["Possession"], axis=1), use_container_width=True)
         
         ### Delete Row ###
         left, _, _ = sl.columns([1.3, 2, 2])
