@@ -15,7 +15,7 @@ def highlight(value):
 def highlight_greaterthan(s, threshold, column):
     is_max = pd.Series(data=False, index=s.index)
     is_max[column] = s.loc[column] == threshold
-    return ['background-color : #3392FF' if is_max.any() else 'background-color : #FF4233' for v in is_max]
+    return ['background-color : #7EBAFE' if is_max.any() else 'background-color : #FF887F' for v in is_max]
 
 def main():
     # Connect to Google
