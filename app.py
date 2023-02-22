@@ -14,9 +14,8 @@ def main():
     _, center, _ = sl.columns([1, 1, 1])
     with center:
         sl.image("logo.png")
-
-    ### Title ###
-    sl.title("Les Vikings - Rugby XIII")
+        ### Title ###
+        sl.title("Les Vikings - Rugby XIII")
 
     ### Side Bar ###
     menu = ["Nouveau", "Précédent"]
@@ -148,7 +147,8 @@ def main():
         
         # Show Data
         sl.subheader("\n Résultats")
-        sl.dataframe(match_data[["Série", "Evénement", "Possession", "Action", "Zone"]], use_container_width=True)
+        #st.markdown('<style>div[title="OK"] { color: green; } div[title="KO"] { color: red; } .data:hover{ background:rgb(243 246 255)}</style>', unsafe_allow_html=True)
+        sl.dataframe(match_data[["Série", "Evénement", "Possession", "Action", "Zone"]].style.set_properties(**{'background-color': 'blue'}), use_container_width=True)
         
         ### Delete Row ###
         left, _, _ = sl.columns([1.3, 2, 2])
