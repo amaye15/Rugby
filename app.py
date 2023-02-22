@@ -35,6 +35,8 @@ def main():
         #match_data = pd.DataFrame(match_worksheet.get_all_records())
         match_data = pd.read_parquet("match_data.csv")
 
+        sl.dataframe(match_data)
+
         # If empty, create empty dataframe
         if match_data.empty:
             match_data = pd.DataFrame(columns=["Lieu du match", "Nom de l'adversaire", "Temps", "Mi-Temps", "Série", "Possession",  "Evénement", "Action", "Zone", "Nantes Score", "Adversaire Score"])
