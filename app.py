@@ -15,7 +15,7 @@ def main():
     # Connect to Google
     #gc = gspread.service_account(filename="cred.json")
     gc = gspread.service_account_from_dict(dict(sl.secrets["config"]))
-    pd.DataFrame(columns=["Lieu du match", "Nom de l'adversaire", "Temps", "Mi-Temps", "Série", "Possession",  "Evénement", "Action", "Zone", "Nantes Score", "Adversaire Score"]).to_parquet("match_data.csv")
+    #pd.DataFrame(columns=["Lieu du match", "Nom de l'adversaire", "Temps", "Mi-Temps", "Série", "Possession",  "Evénement", "Action", "Zone", "Nantes Score", "Adversaire Score"]).to_parquet("match_data.csv")
     ### Image ###
     _, center, _ = sl.columns([1, 1, 1])
     with center:
@@ -32,7 +32,8 @@ def main():
 
         # Match Data
         match_worksheet = gc.open_by_url("https://docs.google.com/spreadsheets/d/1F0NI-6_oi_geBDIJge9b6FXipMUyDw3XR90rHDALCx8/edit").sheet1
-        match_data = pd.DataFrame(match_worksheet.get_all_records())
+        #match_data = pd.DataFrame(match_worksheet.get_all_records())
+        match_data = pd.read_parquet("match_data.csv")
 
         # If empty, create empty dataframe
         if match_data.empty:
