@@ -5,14 +5,8 @@ import pandas as pd
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
-
-def highlight(value):
-    if value == "Nantes":
-        return ['background-color : #3392FF']
-    else:
-        return ['background-color : #FF4233']
     
-def highlight_greaterthan(s, threshold, column):
+def highlight(s, threshold, column):
     is_max = pd.Series(data=False, index=s.index)
     is_max[column] = s.loc[column] == threshold
     return ['background-color : #7EBAFE' if is_max.any() else 'background-color : #FF887F' for v in is_max]
@@ -21,7 +15,7 @@ def main():
     # Connect to Google
     #gc = gspread.service_account(filename="cred.json")
     gc = gspread.service_account_from_dict(dict(sl.secrets["config"]))
-
+    pd.DataFrame(columns=["Lieu du match", "Nom de l'adversaire", "Temps", "Mi-Temps", "Série", "Possession",  "Evénement", "Action", "Zone", "Nantes Score", "Adversaire Score"]).to_parquet("match_data.csv")
     ### Image ###
     _, center, _ = sl.columns([1, 1, 1])
     with center:
@@ -164,7 +158,7 @@ def main():
         sl.subheader("\n Résultats")
         #st.markdown('<style>div[title="OK"] { color: green; } div[title="KO"] { color: red; } .data:hover{ background:rgb(243 246 255)}</style>', unsafe_allow_html=True)
         #'background-color : #3392FF' if match_data[["Possession"]] == "Nantes" else 'background-color : #FF4233'
-        sl.dataframe(match_data[["Série", "Evénement", "Possession", "Action", "Zone"]].style.apply(highlight_greaterthan, threshold="Nantes", column=["Possession"], axis=1), use_container_width=True)
+        sl.dataframe(match_data[["Série", "Evénement", "Possession", "Action", "Zone"]].style.apply(highlight, threshold="Nantes", column=["Possession"], axis=1), use_container_width=True)
         
         ### Delete Row ###
         left, _, _ = sl.columns([1.3, 2, 2])
