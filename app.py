@@ -140,7 +140,7 @@ def main():
                 half = "Deuxième"
 
             # Add Data
-            match_data = match_data.append({"Lieu du match": place_choice,
+            match_data = match_data.update({"Lieu du match": place_choice,
                          "Nom de l'adversaire": team_choice,
                          "Temps": dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                          "Mi-Temps": half,
@@ -150,7 +150,7 @@ def main():
                          "Action": action_choice, 
                          "Zone": zone_choice,
                          "Nantes Score": nantes_score,
-                         "Adversaire Score": adversaire_score}, ignore_index=True)
+                         "Adversaire Score": adversaire_score})
             match_worksheet.update([match_data.columns.values.tolist()] + match_data.values.tolist())
             # Refresh Page
             sl.experimental_rerun()
