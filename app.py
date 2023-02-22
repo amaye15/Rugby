@@ -2,6 +2,7 @@ import streamlit as sl
 import datetime as dt
 import gspread
 import pandas as pd
+import polars as pl
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
@@ -15,7 +16,7 @@ def main():
     # Connect to Google
     #gc = gspread.service_account(filename="cred.json")
     gc = gspread.service_account_from_dict(dict(sl.secrets["config"]))
-    #pd.DataFrame(columns=["Lieu du match", "Nom de l'adversaire", "Temps", "Mi-Temps", "Série", "Possession",  "Evénement", "Action", "Zone", "Nantes Score", "Adversaire Score"]).to_parquet("match_data.csv")
+
     ### Image ###
     _, center, _ = sl.columns([1, 1, 1])
     with center:
@@ -27,37 +28,27 @@ def main():
     menu = ["En Cours", "Données de Match", "Analyse du Match (Incomplet)", "Data Science (Incomplete)"]
     menu_choice = sl.sidebar.selectbox("Match", menu)
 
+    # Match Data
+    match_worksheet = gc.open_by_url("https://docs.google.com/spreadsheets/d/1F0NI-6_oi_geBDIJge9b6FXipMUyDw3XR90rHDALCx8/edit").sheet1
+    match_data = pl.DataFrame(match_worksheet.get_all_records())
+
+    match_data_unique_actions = match_data["Action"].unique()
+
+    if "Essai (4pt)" in match_data_unique_actions or "Essai et Transformation (6pt)" in match_data_unique_actions or "Drop (1pt)" in match_data_unique_actions:
+        nantes_filter = (match_data["Possession"] == "Nantes")
+        adversaire_filter = (match_data["Possession"] == "Adversaire")
+
+        nantes_score = sum(nantes_filter &  (match_data["Action"] == "Essai (4pt)")) * 4 + sum(nantes_filter &  (match_data["Action"] == "Essai et Transformation (6pt)")) * 6 +  sum(nantes_filter &  (match_data["Action"] == "Drop (1pt)"))
+        adversaire_score = sum(adversaire_filter &  (match_data["Action"] == "Essai (4pt)")) * 4 + sum(adversaire_filter &  (match_data["Action"] == "Essai et Transformation (6pt)")) * 6 +  sum(adversaire_filter &  (match_data["Action"] == "Drop (1pt)"))
+    else:
+        nantes_score = 0
+        adversaire_score = 0
+
     ### New Game ###
     if menu_choice == "En Cours":
 
-        # Match Data
-        match_worksheet = gc.open_by_url("https://docs.google.com/spreadsheets/d/1F0NI-6_oi_geBDIJge9b6FXipMUyDw3XR90rHDALCx8/edit").sheet1
-        #match_data = pd.DataFrame(match_worksheet.get_all_records())
-        match_data = pd.read_parquet("match_data.csv")
-
-        sl.dataframe(match_data)
-
-        # If empty, create empty dataframe
-        if match_data.empty:
-            match_data = pd.DataFrame(columns=["Lieu du match", "Nom de l'adversaire", "Temps", "Mi-Temps", "Série", "Possession",  "Evénement", "Action", "Zone", "Nantes Score", "Adversaire Score"])
-
-        # Automatically determine series
-        if match_data.empty:
-            nantes_score = 0
-            adversaire_score = 0
-        if "Essai (4pt)" in match_data["Action"].to_list() or "Essai et Transformation (6pt)" in match_data["Action"].to_list() or "Drop (1pt)" in match_data["Action"].to_list():
-            nantes_score = (len(match_data.loc[(match_data["Possession"] == "Nantes") & (match_data["Action"] == "Essai (4pt)")]) * 4) + (len(match_data.loc[(match_data["Possession"] == "Nantes") & (match_data["Action"] == "Essai et Transformation (6pt)")]) * 6) + (len(match_data.loc[(match_data["Possession"] == "Nantes") & (match_data["Action"] == "Drop (1pt)")]) * 1)
-            adversaire_score = (len(match_data.loc[(match_data["Possession"] == "Adversaire") & (match_data["Action"] == "Essai (4pt)")]) * 4) + (len(match_data.loc[(match_data["Possession"] == "Adversaire") & (match_data["Action"] == "Essai et Transformation (6pt)")]) * 6) + (len(match_data.loc[(match_data["Possession"] == "Adversaire") & (match_data["Action"] == "Drop (1pt)")]) * 1)
-        else:
-            nantes_score = 0
-            adversaire_score = 0
-
-        # Title
-        #_, center, _ = sl.columns([1, 1, 1])
-        #with center:
-            #sl.header(f"Score")
-
         left, _, right = sl.columns([1, 1, 1])
+        
         with left:
             sl.markdown(f'<p style="font-family:sans-serif; color:#3392FF; font-size: 36px;">{f"Nantes:   {nantes_score}"}</p>', unsafe_allow_html=True)
         with right:
@@ -140,7 +131,7 @@ def main():
                 half = "Deuxième"
 
             # Add Data
-            match_data = match_data.update({"Lieu du match": place_choice,
+            match_data = match_data.append({"Lieu du match": place_choice,
                          "Nom de l'adversaire": team_choice,
                          "Temps": dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                          "Mi-Temps": half,
@@ -150,7 +141,7 @@ def main():
                          "Action": action_choice, 
                          "Zone": zone_choice,
                          "Nantes Score": nantes_score,
-                         "Adversaire Score": adversaire_score})
+                         "Adversaire Score": adversaire_score}, ignore_index=True)
             match_worksheet.update([match_data.columns.values.tolist()] + match_data.values.tolist())
             # Refresh Page
             sl.experimental_rerun()
