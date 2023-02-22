@@ -48,9 +48,10 @@ def main():
 
         left, _, right = sl.columns([1, 1, 1])
         with left:
-            sl.subheader(f"Nantes:   {nantes_score}")
+            sl.markdown(f'<p style="font-family:sans-serif; color:Blue; font-size: 42px;">{f"Nantes:   {nantes_score}"}</p>', unsafe_allow_html=True)
         with right:
-            sl.subheader(f"Adversaire:   {adversaire_score}")
+            #sl.subheader(f"Adversaire:   {adversaire_score}")
+            sl.markdown(f'<p style="font-family:sans-serif; color:Red; font-size: 42px;">{f"Adversaire:   {adversaire_score}"}</p>', unsafe_allow_html=True)
         
         ### Before Match ###
         sl.subheader("Avant le match")
