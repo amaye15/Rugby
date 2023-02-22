@@ -15,7 +15,7 @@ def main():
     with center:
         sl.image("logo.png")
         ### Title ###
-        sl.title("Les Vikings - Rugby XIII")
+        sl.title("Les Vikings Rugby XIII")
 
     ### Side Bar ###
     menu = ["Nouveau", "Précédent"]
@@ -39,11 +39,14 @@ def main():
         if "Essai (4pt)" in match_data["Action"].to_list() or "Essai et Transformation (6pt)" in match_data["Action"].to_list() or "Drop (1pt)" in match_data["Action"].to_list():
             nantes_score = (len(match_data.loc[(match_data["Possession"] == "Nantes") & (match_data["Action"] == "Essai (4pt)")]) * 4) + (len(match_data.loc[(match_data["Possession"] == "Nantes") & (match_data["Action"] == "Essai et Transformation (6pt)")]) * 6) + (len(match_data.loc[(match_data["Possession"] == "Nantes") & (match_data["Action"] == "Drop (1pt)")]) * 1)
             adversaire_score = (len(match_data.loc[(match_data["Possession"] == "Adversaire") & (match_data["Action"] == "Essai (4pt)")]) * 4) + (len(match_data.loc[(match_data["Possession"] == "Adversaire") & (match_data["Action"] == "Essai et Transformation (6pt)")]) * 6) + (len(match_data.loc[(match_data["Possession"] == "Adversaire") & (match_data["Action"] == "Drop (1pt)")]) * 1)
+        else:
+            nantes_score = 0
+            adversaire_score = 0
 
         # Title
-        _, center, _ = sl.columns([1, 1, 1])
-        with center:
-            sl.header(f"Score")
+        #_, center, _ = sl.columns([1, 1, 1])
+        #with center:
+            #sl.header(f"Score")
 
         left, _, right = sl.columns([1, 1, 1])
         with left:
