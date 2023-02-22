@@ -30,11 +30,11 @@ def main():
         sl.title("Les Vikings Rugby XIII")
 
     ### Side Bar ###
-    menu = ["Nouveau", "Précédent"]
+    menu = ["En Cours", "Données de Match", "Analyse du Match (Incomplet)", "Data Science (Incomplete)"]
     menu_choice = sl.sidebar.selectbox("Match", menu)
 
     ### New Game ###
-    if menu_choice == "Nouveau":
+    if menu_choice == "En Cours":
 
         # Match Data
         match_worksheet = gc.open_by_url("https://docs.google.com/spreadsheets/d/1F0NI-6_oi_geBDIJge9b6FXipMUyDw3XR90rHDALCx8/edit").sheet1
