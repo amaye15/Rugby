@@ -165,7 +165,7 @@ def main():
                          "Action": action_choice, 
                          "Zone": zone_choice,
                          "Nantes Score": nantes_score,
-                         "Adversaire Score": adversaire_score}, ignore_index=True)
+                         "Adversaire Score": adversaire_score})
             match_worksheet.update([match_data.columns] + match_data.to_numpy().tolist())
             # Refresh Page
             sl.experimental_rerun()
