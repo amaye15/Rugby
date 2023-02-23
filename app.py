@@ -219,12 +219,12 @@ def main():
             historical_data = pl.DataFrame(historical_worksheet.get_all_records())
 
             # If empty, create empty dataframe
-            if historical_data.height == 0:
-                historical_data = pl.DataFrame(schema = ["Lieu du match", "Nom de l'adversaire", "Temps", "Mi-Temps", "Série", "Possession",  "Plaquage", "Action", "Zone", "Nantes Score", "Adversaire Score", "Winner"])
+            #if historical_data.height == 0:
+                #historical_data = pl.DataFrame(schema = "Lieu du match", "Nom de l'adversaire", "Temps", "Mi-Temps", "Série", "Possession",  "Plaquage", "Action", "Zone", "Nantes Score", "Adversaire Score", "Winner"])
         
             match_data = match_data.with_columns(pl.lit(winner_choice).alias("Winner"))
-            historical_data = historical_data.extend(match_data)
-            historical_worksheet.update([historical_data.columns] + historical_data.to_numpy().tolist())
+            historical_data = historical_data.to_pandas().append(match_data.to_pandas())
+            historical_worksheet.update([historical_data.columns.to_list()] + historical_data.values.tolist())
             match_worksheet.clear()
             sl.experimental_rerun()
 
