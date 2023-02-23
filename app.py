@@ -31,9 +31,10 @@ def main():
     # Match Data
     match_worksheet = gc.open_by_url("https://docs.google.com/spreadsheets/d/1F0NI-6_oi_geBDIJge9b6FXipMUyDw3XR90rHDALCx8/edit").sheet1
     match_data = pl.DataFrame(match_worksheet.get_all_records())
-
-    # Get unique actions    
-    match_data_unique_actions = match_data["Action"].unique()
+    
+    if match_data.height != 0:
+        # Get unique actions    
+        match_data_unique_actions = match_data["Action"].unique()
 
     ### Calculate Score ###
     if "Essai (4pt)" in match_data_unique_actions or "Essai et Transformation (6pt)" in match_data_unique_actions or "Drop (1pt)" in match_data_unique_actions:
