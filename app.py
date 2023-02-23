@@ -52,11 +52,11 @@ def main():
         with left:
             sl.markdown(f'<p style="font-family:sans-serif; color:#3392FF; font-size: 36px;">{f"Nantes:   {nantes_score}"}</p>', unsafe_allow_html=True)
             sl.text("Avant")
-            sl.image("before.jpeg")
+            sl.image("before.jpg")
         with right:
             sl.markdown(f'<p style="font-family:sans-serif; color:#FF4233; font-size: 36px;">{f"Adversaire:   {adversaire_score}"}</p>', unsafe_allow_html=True)
             sl.text("Après")
-            sl.image("after.jpeg")
+            sl.image("after.jpg")
 
     
     if menu_choice == "Données des Match":
