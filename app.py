@@ -216,14 +216,14 @@ def main():
 
             # Match Data
             historical_worksheet = gc.open_by_url("https://docs.google.com/spreadsheets/d/14vdIL4MwuOHDxsY6bb3rfkjbbVd4iXw2ZcIwG8rNBfo/edit").sheet1
-            historical_data = pl.DataFrame(historical_worksheet.get_all_records())
+            historical_data = pd.DataFrame(historical_worksheet.get_all_records())
 
             # If empty, create empty dataframe
             #if historical_data.height == 0:
                 #historical_data = pl.DataFrame(schema = "Lieu du match", "Nom de l'adversaire", "Temps", "Mi-Temps", "Série", "Possession",  "Plaquage", "Action", "Zone", "Nantes Score", "Adversaire Score", "Winner"])
         
             match_data = match_data.with_columns(pl.lit(winner_choice).alias("Winner"))
-            historical_data = historical_data.to_pandas().append(match_data.to_pandas())
+            historical_data = historical_data.append(match_data.to_pandas())
             historical_worksheet.update([historical_data.columns.to_list()] + historical_data.values.tolist())
             match_worksheet.clear()
             sl.experimental_rerun()
