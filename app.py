@@ -35,15 +35,16 @@ def main():
     if match_data.height != 0:
         # Get unique actions    
         match_data_unique_actions = match_data["Action"].unique()
-
-    ### Calculate Score ###
-    if "Essai (4pt)" in match_data_unique_actions or "Essai et Transformation (6pt)" in match_data_unique_actions or "Drop (1pt)" in match_data_unique_actions:
-        # Filter by Team
-        nantes_filter = (match_data["Possession"] == "Nantes")
-        adversaire_filter = (match_data["Possession"] == "Adversaire")
-        # Determine Score
-        nantes_score = sum(nantes_filter &  (match_data["Action"] == "Essai (4pt)")) * 4 + sum(nantes_filter &  (match_data["Action"] == "Essai et Transformation (6pt)")) * 6 +  sum(nantes_filter &  (match_data["Action"] == "Drop (1pt)"))
-        adversaire_score = sum(adversaire_filter &  (match_data["Action"] == "Essai (4pt)")) * 4 + sum(adversaire_filter &  (match_data["Action"] == "Essai et Transformation (6pt)")) * 6 +  sum(adversaire_filter &  (match_data["Action"] == "Drop (1pt)"))
+    
+    if match_data.height != 0:
+        ### Calculate Score ###
+        if "Essai (4pt)" in match_data_unique_actions or "Essai et Transformation (6pt)" in match_data_unique_actions or "Drop (1pt)" in match_data_unique_actions:
+            # Filter by Team
+            nantes_filter = (match_data["Possession"] == "Nantes")
+            adversaire_filter = (match_data["Possession"] == "Adversaire")
+            # Determine Score
+            nantes_score = sum(nantes_filter &  (match_data["Action"] == "Essai (4pt)")) * 4 + sum(nantes_filter &  (match_data["Action"] == "Essai et Transformation (6pt)")) * 6 +  sum(nantes_filter &  (match_data["Action"] == "Drop (1pt)"))
+            adversaire_score = sum(adversaire_filter &  (match_data["Action"] == "Essai (4pt)")) * 4 + sum(adversaire_filter &  (match_data["Action"] == "Essai et Transformation (6pt)")) * 6 +  sum(adversaire_filter &  (match_data["Action"] == "Drop (1pt)"))
     else:
         nantes_score = 0
         adversaire_score = 0
