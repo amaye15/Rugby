@@ -38,8 +38,6 @@ def main():
     if not_empty:
         # Get unique actions    
         match_data_unique_actions = match_data["Action"].unique()
-    
-    if not_empty:
         ### Calculate Score ###
         if "Essai (4pt)" in match_data_unique_actions or "Essai et Transformation (6pt)" in match_data_unique_actions or "Drop (1pt)" in match_data_unique_actions:
             # Filter by Team
