@@ -7,9 +7,9 @@ import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
     
-def highlight(s, threshold, column):
-    is_max = pd.Series(data=False, index=s.index)
-    is_max[column] = s.loc[column] == threshold
+def highlight(series, threshold, column):
+    is_max = pd.Series(data=False, index=series.index)
+    is_max[column] = series.loc[column] == threshold
     return ['background-color : #7EBAFE' if is_max.any() else 'background-color : #FF887F' for v in is_max]
 
 def main():
@@ -32,17 +32,22 @@ def main():
     match_worksheet = gc.open_by_url("https://docs.google.com/spreadsheets/d/1F0NI-6_oi_geBDIJge9b6FXipMUyDw3XR90rHDALCx8/edit").sheet1
     match_data = pl.DataFrame(match_worksheet.get_all_records())
 
+    # Get unique actions    
     match_data_unique_actions = match_data["Action"].unique()
 
+    ### Calculate Score ###
     if "Essai (4pt)" in match_data_unique_actions or "Essai et Transformation (6pt)" in match_data_unique_actions or "Drop (1pt)" in match_data_unique_actions:
+        # Filter by Team
         nantes_filter = (match_data["Possession"] == "Nantes")
         adversaire_filter = (match_data["Possession"] == "Adversaire")
-
+        # Determine Score
         nantes_score = sum(nantes_filter &  (match_data["Action"] == "Essai (4pt)")) * 4 + sum(nantes_filter &  (match_data["Action"] == "Essai et Transformation (6pt)")) * 6 +  sum(nantes_filter &  (match_data["Action"] == "Drop (1pt)"))
         adversaire_score = sum(adversaire_filter &  (match_data["Action"] == "Essai (4pt)")) * 4 + sum(adversaire_filter &  (match_data["Action"] == "Essai et Transformation (6pt)")) * 6 +  sum(adversaire_filter &  (match_data["Action"] == "Drop (1pt)"))
     else:
         nantes_score = 0
         adversaire_score = 0
+
+################################################################################################################################################################################################################################################
 
     ### New Game ###
     if menu_choice == "En Cours":
@@ -58,6 +63,7 @@ def main():
             sl.text("Après")
             sl.image("after.jpg")
 
+################################################################################################################################################################################################################################################
     
     if menu_choice == "Données des Match":
 
@@ -112,15 +118,18 @@ def main():
         if sl.button("Mise à jour des résultats"):
             
             # Automatically determine series
-            if match_data.empty:
+            if match_data.height == 0:
                 series = 1
-            elif match_data["Possession"].values[-1] == ball_choice:
+            elif match_data["Possession"].values[-1] == ball_choice and match_data["Action"].values[-1] == "Plaquage":
+                series = match_data["Série"].values[-1]
+            elif match_data["Possession"].values[-1] == ball_choice and match_data["Action"].values[-1] == "Coup de pied":
                 series = match_data["Série"].values[-1]
             else:
                 series = match_data["Série"].values[-1] + 1
 
             # Automatically determine series
-            if match_data.empty:
+            
+            if match_data.height == 0:
                 event = 1
             elif match_data["Possession"].values[-1] == ball_choice and match_data["Action"].values[-1] == "Plaquage" and action_choice == "Plaquage":
                 event = match_data["Evénement"].values[-1] + 1
@@ -138,7 +147,7 @@ def main():
                 event = 1
 
             # Automatically determine half
-            if match_data.empty:
+            if match_data.height == 0:
                 half = "Première"
             elif ((dt.datetime.now() - pd.to_datetime(match_data["Temps"].values[0])).total_seconds() / 60) < 40:
                 half = "Première"
@@ -146,7 +155,7 @@ def main():
                 half = "Deuxième"
 
             # Add Data
-            match_data = match_data.append({"Lieu du match": place_choice,
+            match_data = match_data.update({"Lieu du match": place_choice,
                          "Nom de l'adversaire": team_choice,
                          "Temps": dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                          "Mi-Temps": half,
@@ -157,11 +166,10 @@ def main():
                          "Zone": zone_choice,
                          "Nantes Score": nantes_score,
                          "Adversaire Score": adversaire_score}, ignore_index=True)
-            match_worksheet.update([match_data.columns.values.tolist()] + match_data.values.tolist())
+            match_worksheet.update([match_data.columns] + match_data.to_numpy().tolist())
             # Refresh Page
             sl.experimental_rerun()
         
-        #sl.text("""Note : S'il y a une faute ou une pénalité pour "possession de balle",\nmettez l'équipe qui a fait la faute ou la pénalité.""")
         
         # Show Data
         sl.subheader("\n Résultats")
