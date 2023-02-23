@@ -18,7 +18,7 @@ def main():
     gc = gspread.service_account_from_dict(dict(sl.secrets["config"]))
 
     ### Image ###
-    _, center, _ = sl.columns([1, 1, 1])
+    _, center, _ = sl.columns([1, 2, 1])
     with center:
         sl.image("logo.png")
         ### Title ###
