@@ -32,8 +32,6 @@ def main():
     match_worksheet = gc.open_by_url("https://docs.google.com/spreadsheets/d/1F0NI-6_oi_geBDIJge9b6FXipMUyDw3XR90rHDALCx8/edit").sheet1
     match_data = pl.DataFrame(match_worksheet.get_all_records())
     not_empty = match_data.height != 0
-
-    print(not_empty, flush=True)
     
     nantes_score = 0
     adversaire_score = 0
