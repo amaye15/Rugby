@@ -35,6 +35,9 @@ def main():
 
     print(not_empty, flush=True)
     
+    nantes_score = 0
+    adversaire_score = 0
+
     if not_empty:
         # Get unique actions    
         match_data_unique_actions = match_data["Action"].unique()
@@ -46,9 +49,6 @@ def main():
             # Determine Score
             nantes_score = sum(nantes_filter &  (match_data["Action"] == "Essai (4pt)")) * 4 + sum(nantes_filter &  (match_data["Action"] == "Essai et Transformation (6pt)")) * 6 +  sum(nantes_filter &  (match_data["Action"] == "Drop (1pt)"))
             adversaire_score = sum(adversaire_filter &  (match_data["Action"] == "Essai (4pt)")) * 4 + sum(adversaire_filter &  (match_data["Action"] == "Essai et Transformation (6pt)")) * 6 +  sum(adversaire_filter &  (match_data["Action"] == "Drop (1pt)"))
-    else:
-        nantes_score = 0
-        adversaire_score = 0
 
 ################################################################################################################################################################################################################################################
 
