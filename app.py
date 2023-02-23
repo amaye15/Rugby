@@ -25,7 +25,7 @@ def main():
         sl.title("Les Vikings Rugby XIII")
 
     ### Side Bar ###
-    menu = ["En Cours", "Données de Match", "Analyse du Match (Incomplet)", "Data Science (Incomplete)"]
+    menu = ["En Cours", "Données des Match", "Analyse des Match (Incomplet)", "Data Science (Incomplete)"]
     menu_choice = sl.sidebar.selectbox("Match", menu)
 
     # Match Data
@@ -52,9 +52,17 @@ def main():
         with left:
             sl.markdown(f'<p style="font-family:sans-serif; color:#3392FF; font-size: 36px;">{f"Nantes:   {nantes_score}"}</p>', unsafe_allow_html=True)
         with right:
-            #sl.subheader(f"Adversaire:   {adversaire_score}")
             sl.markdown(f'<p style="font-family:sans-serif; color:#FF4233; font-size: 36px;">{f"Adversaire:   {adversaire_score}"}</p>', unsafe_allow_html=True)
+    
+    if menu_choice == "Données des Match":
+
+        left, _, right = sl.columns([1, 1, 1])
         
+        with left:
+            sl.markdown(f'<p style="font-family:sans-serif; color:#3392FF; font-size: 36px;">{f"Nantes:   {nantes_score}"}</p>', unsafe_allow_html=True)
+        with right:
+            sl.markdown(f'<p style="font-family:sans-serif; color:#FF4233; font-size: 36px;">{f"Adversaire:   {adversaire_score}"}</p>', unsafe_allow_html=True)
+
         ### Before Match ###
         sl.subheader("Avant le match")
 
@@ -83,9 +91,11 @@ def main():
         with center:
 
             # Action or Event taken place
-            action = ["Plaquage", "Coup de pied", "Pénalité/Faute",
-                      "Essai (4pt)", "Essai et Transformation (6pt)", 
-                      "Sortie de balle", "Plaquage (en but)", "Drop (1pt)"]
+            action = ["Plaquage", "Plaquage (en but)","Coup de pied",
+                      "Essai (4pt)", "Essai et Transformation (6pt)",
+                      "Drop (1pt)", "Sortie de balle", "Pénalité/Faute",
+                      "Pénalité (Carte Jaune)", "Pénalité (Carte Rouge)"]
+            
             action_choice = sl.selectbox("Action", action)
 
         with right:
