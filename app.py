@@ -177,18 +177,19 @@ def main():
         sl.subheader("\n Résultats")
         #st.markdown('<style>div[title="OK"] { color: green; } div[title="KO"] { color: red; } .data:hover{ background:rgb(243 246 255)}</style>', unsafe_allow_html=True)
         #'background-color : #3392FF' if match_data[["Possession"]] == "Nantes" else 'background-color : #FF4233'
-        sl.dataframe(match_data[["Série", "Evénement", "Possession", "Action", "Zone"]].to_pandas().style.apply(highlight, threshold="Nantes", column=["Possession"], axis=1), use_container_width=True)
+        if match_data.height != 0:
+            sl.dataframe(match_data[["Série", "Evénement", "Possession", "Action", "Zone"]].to_pandas().style.apply(highlight, threshold="Nantes", column=["Possession"], axis=1), use_container_width=True)
         
-        ### Delete Row ###
-        left, _, _ = sl.columns([1.3, 2, 2])
-        with left:
-            row = range(match_data.height)
-            row_choice = sl.selectbox("Ligne", row)
-            delete_button = sl.button("Supprimer une ligne")
-        # Delete button
-        if delete_button: 
-            match_worksheet.delete_row(row_choice + 2)
-            sl.experimental_rerun()
+            ### Delete Row ###
+            left, _, _ = sl.columns([1.3, 2, 2])
+            with left:
+                row = range(match_data.height)
+                row_choice = sl.selectbox("Ligne", row)
+                delete_button = sl.button("Supprimer une ligne")
+            # Delete button
+            if delete_button: 
+                match_worksheet.delete_row(row_choice + 2)
+                sl.experimental_rerun()
 
         ### After Match ###
         sl.subheader("Fin du match")
