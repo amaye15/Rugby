@@ -132,7 +132,7 @@ def main():
 
             # Automatically determine series
             
-            if not_empty:
+            if match_data.height == 0:
                 event = 1
             elif match_data["Possession"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Plaquage":
                 event = match_data["Evénement"][-1] + 1
