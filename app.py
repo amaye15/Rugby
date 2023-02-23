@@ -123,7 +123,7 @@ def main():
         if sl.button("Mise à jour des résultats"):
             
             # Automatically determine series
-            if not_empty:
+            if match_data.height == 0:
                 series = 1
             elif match_data["Possession"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage":
                 series = match_data["Série"][-1]
