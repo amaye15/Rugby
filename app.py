@@ -93,15 +93,15 @@ def main():
         ### During Match ###
         sl.subheader("Pendant le match")
 
-        left,center, right = sl.columns([1, 1, 1])
-
-        with left:
+        #left,center, right = sl.columns([1, 1, 1])
+        left, right = sl.columns([1,1])
+        #with left:
             # Possesion of the ball
-            ball = ["Nantes", "Adversaire"]
-            ball_choice = sl.selectbox("Possession de balle", ball)
+            #ball = ["Nantes", "Adversaire"]
+            #ball_choice = sl.selectbox("Possession de balle", ball)
 
-        with center:
-
+        #with center:
+        with left:
             # Action or Event taken place
             action = ["Plaquage", "Plaquage (en but)","Coup de pied",
                       "Essai (4pt)", "Essai et Transformation (6pt)",
