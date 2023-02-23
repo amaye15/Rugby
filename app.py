@@ -120,36 +120,36 @@ def main():
             # Automatically determine series
             if match_data.height == 0:
                 series = 1
-            elif match_data["Possession"].values[-1] == ball_choice and match_data["Action"].values[-1] == "Plaquage":
-                series = match_data["Série"].values[-1]
-            elif match_data["Possession"].values[-1] == ball_choice and match_data["Action"].values[-1] == "Coup de pied":
-                series = match_data["Série"].values[-1]
+            elif match_data["Possession"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage":
+                series = match_data["Série"][-1]
+            elif match_data["Possession"][-1] == ball_choice and match_data["Action"][-1] == "Coup de pied":
+                series = match_data["Série"][-1]
             else:
-                series = match_data["Série"].values[-1] + 1
+                series = match_data["Série"][-1] + 1
 
             # Automatically determine series
             
             if match_data.height == 0:
                 event = 1
-            elif match_data["Possession"].values[-1] == ball_choice and match_data["Action"].values[-1] == "Plaquage" and action_choice == "Plaquage":
-                event = match_data["Evénement"].values[-1] + 1
-            elif match_data["Possession"].values[-1] == ball_choice and match_data["Action"].values[-1] == "Plaquage" and action_choice == "Coup de pied":
-                event = match_data["Evénement"].values[-1] + 1
-            elif match_data["Possession"].values[-1] == ball_choice and match_data["Action"].values[-1] == "Plaquage" and action_choice == "Essai (4pt)":
-                event = match_data["Evénement"].values[-1] + 1
-            elif match_data["Possession"].values[-1] == ball_choice and match_data["Action"].values[-1] == "Plaquage" and action_choice == "Essai et Transformation (6pt)":
-                event = match_data["Evénement"].values[-1] + 1
-            elif match_data["Possession"].values[-1] == ball_choice and match_data["Action"].values[-1] == "Plaquage" and action_choice == "Drop (1pt)":
-                event = match_data["Evénement"].values[-1] + 1
-            elif match_data["Possession"].values[-1] == ball_choice and match_data["Action"].values[-1] == "Plaquage" and action_choice == "Pénalité/Faute":
-                event = match_data["Evénement"].values[-1] + 1
+            elif match_data["Possession"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Plaquage":
+                event = match_data["Evénement"][-1] + 1
+            elif match_data["Possession"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Coup de pied":
+                event = match_data["Evénement"][-1] + 1
+            elif match_data["Possession"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Essai (4pt)":
+                event = match_data["Evénement"][-1] + 1
+            elif match_data["Possession"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Essai et Transformation (6pt)":
+                event = match_data["Evénement"][-1] + 1
+            elif match_data["Possession"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Drop (1pt)":
+                event = match_data["Evénement"][-1] + 1
+            elif match_data["Possession"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Pénalité/Faute":
+                event = match_data["Evénement"][-1] + 1
             else:
                 event = 1
 
             # Automatically determine half
             if match_data.height == 0:
                 half = "Première"
-            elif ((dt.datetime.now() - pd.to_datetime(match_data["Temps"].values[0])).total_seconds() / 60) < 40:
+            elif ((dt.datetime.now() - pd.to_datetime(match_data["Temps"][0])).total_seconds() / 60) < 40:
                 half = "Première"
             else:
                 half = "Deuxième"
@@ -180,7 +180,7 @@ def main():
         ### Delete Row ###
         left, _, _ = sl.columns([1.3, 2, 2])
         with left:
-            row = match_data.index.tolist()
+            row = range(match_data.height)
             row_choice = sl.selectbox("Ligne", row)
             delete_button = sl.button("Supprimer une ligne")
         # Delete button
@@ -200,15 +200,15 @@ def main():
 
             # Match Data
             historical_worksheet = gc.open_by_url("https://docs.google.com/spreadsheets/d/14vdIL4MwuOHDxsY6bb3rfkjbbVd4iXw2ZcIwG8rNBfo/edit").sheet1
-            historical_data = pd.DataFrame(historical_worksheet.get_all_records())
+            historical_data = pl.DataFrame(historical_worksheet.get_all_records())
 
             # If empty, create empty dataframe
             if historical_data.empty:
-                historical_data = pd.DataFrame(columns=["Lieu du match", "Nom de l'adversaire", "Temps", "Mi-Temps", "Série", "Possession",  "Plaquage", "Action", "Zone", "Nantes Score", "Adversaire Score", "Winner"])
+                historical_data = pl.DataFrame(schema = ["Lieu du match", "Nom de l'adversaire", "Temps", "Mi-Temps", "Série", "Possession",  "Plaquage", "Action", "Zone", "Nantes Score", "Adversaire Score", "Winner"])
         
             match_data["Winner"] = winner_choice
-            historical_data = historical_data.append(match_data, ignore_index=True)
-            historical_worksheet.update([historical_data.columns.values.tolist()] + historical_data.values.tolist())
+            historical_data = historical_data.update(match_data)
+            historical_worksheet.update([historical_data.columns] + historical_data.to_numpy().tolist())
             match_worksheet.clear()
             sl.experimental_rerun()
 
