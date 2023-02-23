@@ -158,7 +158,7 @@ def main():
                 half = "Deuxième"
             if not_empty:
                 # Add Data
-                match_data = match_data.update(pl.DataFrame({"Lieu du match": place_choice,
+                match_data = match_data.extend(pl.DataFrame({"Lieu du match": place_choice,
                             "Nom de l'adversaire": team_choice,
                             "Temps": dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                             "Mi-Temps": half,
@@ -225,7 +225,7 @@ def main():
                 historical_data = pl.DataFrame(schema = ["Lieu du match", "Nom de l'adversaire", "Temps", "Mi-Temps", "Série", "Possession",  "Plaquage", "Action", "Zone", "Nantes Score", "Adversaire Score", "Winner"])
         
             match_data["Winner"] = winner_choice
-            historical_data = historical_data.update(match_data)
+            historical_data = historical_data.extend(match_data)
             historical_worksheet.update([historical_data.columns] + historical_data.to_numpy().tolist())
             match_worksheet.clear()
             sl.experimental_rerun()
