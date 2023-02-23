@@ -158,19 +158,32 @@ def main():
                 half = "Première"
             else:
                 half = "Deuxième"
-
-            # Add Data
-            match_data = match_data.update(pl.DataFrame({"Lieu du match": place_choice,
-                         "Nom de l'adversaire": team_choice,
-                         "Temps": dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                         "Mi-Temps": half,
-                         "Série": series,
-                         "Possession": ball_choice,
-                         "Evénement": event, 
-                         "Action": action_choice, 
-                         "Zone": zone_choice,
-                         "Nantes Score": nantes_score,
-                         "Adversaire Score": adversaire_score}))
+            if not_empty:
+                # Add Data
+                match_data = match_data.update(pl.DataFrame({"Lieu du match": place_choice,
+                            "Nom de l'adversaire": team_choice,
+                            "Temps": dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                            "Mi-Temps": half,
+                            "Série": series,
+                            "Possession": ball_choice,
+                            "Evénement": event, 
+                            "Action": action_choice, 
+                            "Zone": zone_choice,
+                            "Nantes Score": nantes_score,
+                            "Adversaire Score": adversaire_score}))
+            else:
+                match_data = pl.DataFrame({"Lieu du match": place_choice,
+                            "Nom de l'adversaire": team_choice,
+                            "Temps": dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                            "Mi-Temps": half,
+                            "Série": series,
+                            "Possession": ball_choice,
+                            "Evénement": event, 
+                            "Action": action_choice, 
+                            "Zone": zone_choice,
+                            "Nantes Score": nantes_score,
+                            "Adversaire Score": adversaire_score})
+            
             match_data = match_data.to_pandas()
             match_worksheet.update([match_data.columns.to_list()] + match_data.values.tolist())
             # Refresh Page
