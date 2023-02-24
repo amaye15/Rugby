@@ -108,11 +108,11 @@ def main():
 
         with left:
             # Home or Away Game
-            place_choice = sl.selectbox("Lieu du match", place)
+            place_choice = sl.selectbox("Lieu du match", conf["places"].values())
 
         with right:
             # Opponent
-            team_choice = sl.selectbox("Nom de l'adversaire", teams)
+            team_choice = sl.selectbox("Nom de l'adversaire", conf["teams"].values())
 
         ### During Match ###
         sl.subheader("Pendant le match")
@@ -127,7 +127,7 @@ def main():
         #with center:
         with left:
             # Action or Event taken place
-            action_choice = sl.selectbox("Action", action)
+            action_choice = sl.selectbox("Action", conf["actions"].values())
 
         with right:
             # Zone of field
