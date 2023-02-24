@@ -79,6 +79,7 @@ def main():
 
         with left:
             sl.markdown(f'''<p style="font-family:sans-serif; color:#3392FF; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"Nantes:   {conf['values']['team_score']}"}</p>''', unsafe_allow_html=True)
+            sl.markdown(f'''<p style="font-family:sans-serif; color:#3392FF; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{conf['values']['team_score']}"}</p>''', unsafe_allow_html=True)
             #components.html(conf["html"["string_one"]])
             
         with right:
