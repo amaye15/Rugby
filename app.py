@@ -46,8 +46,8 @@ def main():
     # Set Scores
     team_score, adversaire_score = conf["values"]["team_score"], conf["values"]["team_score"]
 
-    ### Image ###
-    _, center, _ = sl.columns([1, 1, 1])
+    ###### Image ######
+    right, center, left = sl.columns([1, 1, 1])
     with center:
         sl.image("logo.png")
         ### Title ###
@@ -56,21 +56,16 @@ def main():
     ###### Side Bar ######
     menu_choice = sl.sidebar.selectbox("Match", conf["pages"].values())
     
-    team = sl.selectbox("Choisissez votre équipe", conf["teams"].values())
-    adversaire = sl.selectbox("choisissez votre adversaire", conf["teams"].values())
+    right, center, left = sl.columns([1, 1, 1])
+    
+    with right:
+        team = sl.selectbox("Choisissez votre équipe", list(conf["teams"].values())[:-1])
+    with left:
+        adversaire = sl.selectbox("choisissez votre adversaire", list(reversed(conf["teams"].values())).remove(team))
 
+    # Determine Scores
     if not_empty:
-        conf["values"]["team_score"],conf["values"]["team_score"] = determine_score(match_data, team, adversaire)
-        # Get unique actions    
-        match_data_unique_actions = match_data["Action"].unique()
-        ### Calculate Score ###
-        if "Essai" in match_data_unique_actions or "Transformation" in match_data_unique_actions or "Drop" in match_data_unique_actions:
-            # Filter by Team
-            nantes_filter = (match_data["Possession"] == "Nantes")
-            adversaire_filter = (match_data["Possession"] == "Adversaire")
-            # Determine Score
-            nantes_score = sum(nantes_filter &  (match_data["Action"] == "Essai")) * 4 + sum(nantes_filter &  (match_data["Action"] == "Transformation")) * 6 +  sum(nantes_filter &  (match_data["Action"] == "Drop"))
-            adversaire_score = sum(adversaire_filter &  (match_data["Action"] == "Essai")) * 4 + sum(adversaire_filter &  (match_data["Action"] == "Transformation")) * 6 +  sum(adversaire_filter &  (match_data["Action"] == "Drop"))
+        conf["values"]["team_score"], conf["values"]["team_score"] = determine_score(match_data, team, adversaire)
 
 ################################################################################################################################################################################################################################################
 
