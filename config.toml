@@ -59,3 +59,31 @@ action = "Action"
 area = "Zone"
 team_score = "Équipe Score"
 opponent_score = "Adversaire Score"
+
+[html]
+string_one = """<!DOCTYPE html>
+<html>
+  <head>
+    <title>Center Text</title>
+    <style>
+      body {
+        height: 100vh;
+      }
+      .container {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      p {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <p>This is a centered paragraph of text.</p>
+    </div>
+  </body>
+</html>
+"""

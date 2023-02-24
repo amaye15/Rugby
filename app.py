@@ -5,6 +5,7 @@ import toml
 import pandas as pd
 import polars as pl
 import warnings
+import streamlit.components.v1 as components
 warnings.simplefilter(action='ignore', category=FutureWarning)
     
 def highlight(series, value, column) -> list:
@@ -89,9 +90,10 @@ def main():
         left, _, right = sl.columns([1, 1, 1])
         
         with left:
-            sl.markdown(f'''<p style="font-family:sans-serif; color:#3392FF; font-size: 36px;">{f"Nantes:   {conf['values']['team_score']}"}</p>''', unsafe_allow_html=True)
+            sl.markdown(f'''<p> style="font-family:sans-serif; color:#3392FF; font-size: 36px;">{f"Nantes:   {conf['values']['team_score']}"}</p>''', unsafe_allow_html=True)
+            components.html(conf["html"["string_one"]])
         with right:
-            sl.markdown(f'''<p style="font-family:sans-serif; color:#FF4233; font-size: 36px;">{f"Adversaire:   {conf['values']['adversaire_score']}"}</p>''', unsafe_allow_html=True)
+            sl.markdown(f'''<p> style="font-family:sans-serif; color:#FF4233; font-size: 36px;">{f"Adversaire:   {conf['values']['adversaire_score']}"}</p>''', unsafe_allow_html=True)
 
         ### Before Match ###
         sl.subheader("Avant le match")
