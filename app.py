@@ -14,12 +14,12 @@ def highlight(series, threshold, column):
 
 def main():
     # Toml Configuration
-    conf == toml.load("config.toml")
+    conf = toml.load("config.toml")
 
     # Google Connection & Match Data
     # gc = gspread.service_account(filename="cred.json")
     gc = gspread.service_account_from_dict(dict(sl.secrets["config"]))
-    match_worksheet = gc.open_by_url(conf["url"][""]).sheet1
+    match_worksheet = gc.open_by_url(conf["url"]["match"]).sheet1
     match_data = pl.DataFrame(match_worksheet.get_all_records())
 
     # Empty Dataframe Condition
@@ -38,7 +38,7 @@ def main():
         sl.title("Les Vikings Rugby XIII")
 
     ###### Side Bar ######
-    menu_choice = sl.sidebar.selectbox("Match", menu)
+    menu_choice = sl.sidebar.selectbox("Match", conf["choices"]["menu"])
 
     if not_empty:
         # Get unique actions    
