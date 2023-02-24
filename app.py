@@ -1,11 +1,11 @@
 import streamlit as sl
 import datetime as dt
 import gspread
+import toml
 import pandas as pd
 import polars as pl
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
-
     
 def highlight(series, threshold, column):
     is_max = pd.Series(data=False, index=series.index)
@@ -13,9 +13,22 @@ def highlight(series, threshold, column):
     return ['background-color : #7EBAFE' if is_max.any() else 'background-color : #FF887F' for v in is_max]
 
 def main():
-    # Connect to Google
-    #gc = gspread.service_account(filename="cred.json")
+    # Toml Configuration
+    conf == toml.load("config.toml")
+
+    # Google Connection & Match Data
+    # gc = gspread.service_account(filename="cred.json")
     gc = gspread.service_account_from_dict(dict(sl.secrets["config"]))
+    match_worksheet = gc.open_by_url(conf["url"][""]).sheet1
+    match_data = pl.DataFrame(match_worksheet.get_all_records())
+
+    # Empty Dataframe Condition
+    not_empty = match_data.height != 0
+    
+    # Set Scores
+    nantes_score = conf["values"]["your_team_score"]
+    adversaire_score = conf["values"]["adversaire_score"]
+
 
     ### Image ###
     _, center, _ = sl.columns([1, 1, 1])
@@ -24,29 +37,20 @@ def main():
         ### Title ###
         sl.title("Les Vikings Rugby XIII")
 
-    ### Side Bar ###
-    menu = ["En Cours", "Données des Match", "Analyse des Match (Incomplet)", "Data Science (Incomplete)"]
+    ###### Side Bar ######
     menu_choice = sl.sidebar.selectbox("Match", menu)
-
-    # Match Data
-    match_worksheet = gc.open_by_url("https://docs.google.com/spreadsheets/d/1F0NI-6_oi_geBDIJge9b6FXipMUyDw3XR90rHDALCx8/edit").sheet1
-    match_data = pl.DataFrame(match_worksheet.get_all_records())
-    not_empty = match_data.height != 0
-    
-    nantes_score = 0
-    adversaire_score = 0
 
     if not_empty:
         # Get unique actions    
         match_data_unique_actions = match_data["Action"].unique()
         ### Calculate Score ###
-        if "Essai (4pt)" in match_data_unique_actions or "Essai et Transformation (6pt)" in match_data_unique_actions or "Drop (1pt)" in match_data_unique_actions:
+        if "Essai" in match_data_unique_actions or "Transformation" in match_data_unique_actions or "Drop" in match_data_unique_actions:
             # Filter by Team
             nantes_filter = (match_data["Possession"] == "Nantes")
             adversaire_filter = (match_data["Possession"] == "Adversaire")
             # Determine Score
-            nantes_score = sum(nantes_filter &  (match_data["Action"] == "Essai (4pt)")) * 4 + sum(nantes_filter &  (match_data["Action"] == "Essai et Transformation (6pt)")) * 6 +  sum(nantes_filter &  (match_data["Action"] == "Drop (1pt)"))
-            adversaire_score = sum(adversaire_filter &  (match_data["Action"] == "Essai (4pt)")) * 4 + sum(adversaire_filter &  (match_data["Action"] == "Essai et Transformation (6pt)")) * 6 +  sum(adversaire_filter &  (match_data["Action"] == "Drop (1pt)"))
+            nantes_score = sum(nantes_filter &  (match_data["Action"] == "Essai")) * 4 + sum(nantes_filter &  (match_data["Action"] == "Transformation")) * 6 +  sum(nantes_filter &  (match_data["Action"] == "Drop"))
+            adversaire_score = sum(adversaire_filter &  (match_data["Action"] == "Essai")) * 4 + sum(adversaire_filter &  (match_data["Action"] == "Transformation")) * 6 +  sum(adversaire_filter &  (match_data["Action"] == "Drop"))
 
 ################################################################################################################################################################################################################################################
 
@@ -56,13 +60,10 @@ def main():
         left, _, right = sl.columns([1, 1, 1])
         
         with left:
-            sl.markdown(f'<p style="font-family:sans-serif; color:#3392FF; font-size: 36px;">{f"Nantes:   {nantes_score}"}</p>', unsafe_allow_html=True)
-            sl.text("Avant")
-            sl.image("before.jpg")
+            sl.markdown(f'<p style="font-family:sans-serif; color:#3392FF; font-size: 36px;">{f"Nantes: {nantes_score}"}</p>', unsafe_allow_html=True)
+
         with right:
-            sl.markdown(f'<p style="font-family:sans-serif; color:#FF4233; font-size: 36px;">{f"Adversaire:   {adversaire_score}"}</p>', unsafe_allow_html=True)
-            sl.text("Après")
-            sl.image("after.jpg")
+            sl.markdown(f'<p style="font-family:sans-serif; color:#FF4233; font-size: 36px;">{f"Adversaire: {adversaire_score}"}</p>', unsafe_allow_html=True)
 
 ################################################################################################################################################################################################################################################
     
@@ -82,12 +83,10 @@ def main():
 
         with left:
             # Home or Away Game
-            place = ["Domicile ", "Extérieur"]
             place_choice = sl.selectbox("Lieu du match", place)
 
         with right:
             # Opponent
-            teams = ["Autre", "Pujols", "Trentels", "Begles", "Clairac", "Agenais", "Villeneuve-de-Rivière"]
             team_choice = sl.selectbox("Nom de l'adversaire", teams)
 
         ### During Match ###
@@ -103,16 +102,10 @@ def main():
         #with center:
         with left:
             # Action or Event taken place
-            action = ["Plaquage", "Plaquage (en but)","Coup de pied",
-                      "Essai (4pt)", "Essai et Transformation (6pt)",
-                      "Drop (1pt)", "Sortie de balle", "Pénalité/Faute",
-                      "Pénalité (Carte Jaune)", "Pénalité (Carte Rouge)"]
-            
             action_choice = sl.selectbox("Action", action)
 
         with right:
             # Zone of field
-            zone = ["Nantes 40m", "Adversaire 40m", "Milieu"]
             zone_choice = sl.selectbox("Zone", zone)
         
         # Update Results
@@ -208,14 +201,13 @@ def main():
         sl.subheader("Fin du match")
         left_v2, _, _ = sl.columns([1.35, 1, 1])
         with left_v2:
-            winner = ["Nantes", "Adversaire"]
             winner_choice = sl.selectbox("Winner", winner)
             save_delete_button = sl.button("Enregistrer et supprimer les résultats")
         # Save match data to historical data
         if save_delete_button:
 
             # Match Data
-            historical_worksheet = gc.open_by_url("https://docs.google.com/spreadsheets/d/14vdIL4MwuOHDxsY6bb3rfkjbbVd4iXw2ZcIwG8rNBfo/edit").sheet1
+            historical_worksheet = gc.open_by_url(conf["url"]["history"]).sheet1
             historical_data = pd.DataFrame(historical_worksheet.get_all_records())
 
             # If empty, create empty dataframe

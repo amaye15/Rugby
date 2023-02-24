@@ -1,0 +1,20 @@
+[values]
+your_team_score = 0
+adversaire_score = 0
+
+[url]
+match = "https://docs.google.com/spreadsheets/d/1F0NI-6_oi_geBDIJge9b6FXipMUyDw3XR90rHDALCx8/edit"
+history = "https://docs.google.com/spreadsheets/d/14vdIL4MwuOHDxsY6bb3rfkjbbVd4iXw2ZcIwG8rNBfo/edit"
+
+
+[choices]
+menu = ["En Cours", "Données des Match", "Analyse des Match (Incomplet)", "Data Science (Incomplete)"]
+teams = ["Saint-Pois", "Pujols", "Trentels", "Begles", "Clairac", "Agenais", "Villeneuve-de-Rivière", "Autre",]
+actions = ["Plaquage", "Plaquage (en but)","Coup de pied", "Essai", "Transformation", "Drop", 
+              "Sortie de balle", "Pénalité/Faute", "Pénalité (Carte Jaune)", "Pénalité (Carte Rouge)"]
+zone = ["{your_team} 40m", "Adversaire 40m", "Milieu"]
+place = ["Domicile ", "Extérieur"]
+winner = ["{your_team}", "Adversaire"]
+
+[columns]
+match_data_columns = ["Lieu du match", "Nom de l'adversaire", "Temps", "Mi-Temps", "Série", "Possession", "Evénement", "Action", "Zone", "Score de votre équipe", "Adversaire Score"]
