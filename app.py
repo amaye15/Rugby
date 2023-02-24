@@ -61,7 +61,9 @@ def main():
     with right:
         team = sl.selectbox("Choisissez votre équipe", list(conf["teams"].values())[:-1])
     with left:
-        adversaire = sl.selectbox("choisissez votre adversaire", list(list(reversed(conf["teams"].values())).remove(team)))
+        tmp = list(reversed(conf["teams"].values().remove(team)))
+        tmp.remove(team)
+        adversaire = sl.selectbox("choisissez votre adversaire", tmp)
 
     # Determine Scores
     if not_empty:
