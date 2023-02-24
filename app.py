@@ -71,7 +71,7 @@ def main():
         conf["values"]["team_score"], conf["values"]["team_score"] = determine_score(match_data, team, adversaire)
 
 ################################################################################################################################################################################################################################################
-
+    sl.markdown(f'''<p style="font-family:sans-serif; color:#3392FF; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"Nantes Adversaire"}</p>''', unsafe_allow_html=True)
     ### New Game ###
     if menu_choice == "En Cours":
 
