@@ -10,11 +10,25 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 def highlight(series, value, column) -> list:
     is_max = pd.Series(data=False, index=series.index)
     is_max[column] = series.loc[column] == value
-    return ['background-color : #7EBAFE' if is_max.any() else 'background-color : #FF887F' for v in is_max]
+    return ['background-color : #7EBAFE' if is_max.any() else 'background-color : #FF887F' for _ in is_max]
 
-def determine_score(df, unique_actions, ) -> int:
-
-    return
+def determine_score(df, team: str, adversaire: str, default_score: int = 0) -> tuple:
+    # Get Unique Actions    
+    unique_actions = df["Action"].unique()
+    # Get Conditions
+    c1 = "Essai" in unique_actions
+    c2 = "Transformation" in unique_actions
+    c3 = "Drop" in unique_actions
+    ### Calculate Score ###
+    if c1 or c2 or c3:
+        # Filter by Team
+        team_filter = (df["Actor"] == team)
+        adversaire_filter = (df["Actor"] == adversaire)
+        # Determine Score
+        team_score = sum(team_filter & (df["Action"] == "Essai")) * 4 + sum(team_filter &  (df["Action"] == "Transformation")) * 6 + sum(team_filter & (df["Action"] == "Drop"))
+        adversaire_score = sum(adversaire_filter & (df["Action"] == "Essai")) * 4 + sum(adversaire_filter & (df["Action"] == "Transformation")) * 6 + sum(adversaire_filter & (df["Action"] == "Drop"))
+        return (team_score , adversaire_score)
+    return (default_score, default_score)
 
 
 def main():
@@ -29,11 +43,8 @@ def main():
 
     # Empty Dataframe Condition
     not_empty = match_data.height != 0
-    
     # Set Scores
-    nantes_score = conf["values"]["your_team_score"]
-    adversaire_score = conf["values"]["adversaire_score"]
-
+    team_score, adversaire_score = conf["values"]["team_score"], conf["values"]["team_score"]
 
     ### Image ###
     _, center, _ = sl.columns([1, 1, 1])
@@ -43,9 +54,13 @@ def main():
         sl.title("Les Vikings Rugby XIII")
 
     ###### Side Bar ######
-    menu_choice = sl.sidebar.selectbox("Match", conf["choices"]["menu"])
+    menu_choice = sl.sidebar.selectbox("Match", conf["pages"].values())
+    
+    team = sl.selectbox("Choisissez votre équipe", conf["teams"].values)
+    adversaire = sl.selectbox("choisissez votre adversaire", conf["teams"].values)
 
     if not_empty:
+        conf["values"]["team_score"],conf["values"]["team_score"] = determine_score(match_data, team, adversaire)
         # Get unique actions    
         match_data_unique_actions = match_data["Action"].unique()
         ### Calculate Score ###
@@ -63,12 +78,12 @@ def main():
     if menu_choice == "En Cours":
 
         left, _, right = sl.columns([1, 1, 1])
-        
-        with left:
-            sl.markdown(f'<p style="font-family:sans-serif; color:#3392FF; font-size: 36px;">{f"Nantes: {nantes_score}"}</p>', unsafe_allow_html=True)
 
+        with left:
+            sl.markdown(f'''<p style="font-family:sans-serif; color:#3392FF; font-size: 36px;">{f"Nantes:   {conf['values']['team_score']}"}</p>''', unsafe_allow_html=True)
+            
         with right:
-            sl.markdown(f'<p style="font-family:sans-serif; color:#FF4233; font-size: 36px;">{f"Adversaire: {adversaire_score}"}</p>', unsafe_allow_html=True)
+            sl.markdown(f'''<p style="font-family:sans-serif; color:#FF4233; font-size: 36px;">{f"Adversaire:   {conf['values']['adversaire_score']}"}</p>''', unsafe_allow_html=True)
 
 ################################################################################################################################################################################################################################################
     
@@ -77,9 +92,9 @@ def main():
         left, _, right = sl.columns([1, 1, 1])
         
         with left:
-            sl.markdown(f'<p style="font-family:sans-serif; color:#3392FF; font-size: 36px;">{f"Nantes:   {nantes_score}"}</p>', unsafe_allow_html=True)
+            sl.markdown(f'''<p style="font-family:sans-serif; color:#3392FF; font-size: 36px;">{f"Nantes:   {conf['values']['team_score']}"}</p>''', unsafe_allow_html=True)
         with right:
-            sl.markdown(f'<p style="font-family:sans-serif; color:#FF4233; font-size: 36px;">{f"Adversaire:   {adversaire_score}"}</p>', unsafe_allow_html=True)
+            sl.markdown(f'''<p style="font-family:sans-serif; color:#FF4233; font-size: 36px;">{f"Adversaire:   {conf['values']['adversaire_score']}"}</p>''', unsafe_allow_html=True)
 
         ### Before Match ###
         sl.subheader("Avant le match")

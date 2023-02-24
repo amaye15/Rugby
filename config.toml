@@ -1,5 +1,5 @@
 [values]
-your_team_score = 0
+team_score = 0
 adversaire_score = 0
 
 [url]
@@ -13,14 +13,15 @@ third = "Analyse des Match (Incomplet)"
 fourth = "Data Science (Incomplete)"
 
 [teams]
-first = "Saint-Pois"
+first = "Nantes"
 second = "Pujols"
 third = "Trentels"
 fourth = "Begles"
 fifth = "Clairac"
 sixth = "Agenais"
 seventh = "Villeneuve-de-Rivière"
-eight = "Autre"
+eight = "Saint-Pois"
+ninth = "Autre"
 
 [actions]
 first = "Plaquage"
@@ -56,5 +57,5 @@ set = "Série"
 actor = "Evénement"
 action = "Action"
 area = "Zone"
-team_score = "Score de votre équipe"
+team_score = "Équipe Score"
 opponent_score = "Adversaire Score"
