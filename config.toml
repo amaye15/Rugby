@@ -6,15 +6,55 @@ adversaire_score = 0
 match = "https://docs.google.com/spreadsheets/d/1F0NI-6_oi_geBDIJge9b6FXipMUyDw3XR90rHDALCx8/edit"
 history = "https://docs.google.com/spreadsheets/d/14vdIL4MwuOHDxsY6bb3rfkjbbVd4iXw2ZcIwG8rNBfo/edit"
 
+[pages]
+first = "En Cours"
+second = "Données des Match"
+third = "Analyse des Match (Incomplet)"
+fourth = "Data Science (Incomplete)"
 
-[choices]
-menu = ["En Cours", "Données des Match", "Analyse des Match (Incomplet)", "Data Science (Incomplete)"]
-teams = ["Saint-Pois", "Pujols", "Trentels", "Begles", "Clairac", "Agenais", "Villeneuve-de-Rivière", "Autre",]
-actions = ["Plaquage", "Plaquage (en but)","Coup de pied", "Essai", "Transformation", "Drop", 
-              "Sortie de balle", "Pénalité/Faute", "Pénalité (Carte Jaune)", "Pénalité (Carte Rouge)"]
-zone = ["{your_team} 40m", "Adversaire 40m", "Milieu"]
-place = ["Domicile ", "Extérieur"]
-winner = ["{your_team}", "Adversaire"]
+[teams]
+first = "Saint-Pois"
+second = "Pujols"
+third = "Trentels"
+fourth = "Begles"
+fifth = "Clairac"
+sixth = "Agenais"
+seventh = "Villeneuve-de-Rivière"
+eight = "Autre"
 
-[columns]
-match_data_columns = ["Lieu du match", "Nom de l'adversaire", "Temps", "Mi-Temps", "Série", "Possession", "Evénement", "Action", "Zone", "Score de votre équipe", "Adversaire Score"]
+[actions]
+first = "Plaquage"
+second = "Plaquage (en but)"
+third = "Coup de pied"
+fourth = "Essai"
+fifth = "Transformation"
+sixth = "Drop"
+seventh = "Sortie de balle"
+eight = "Pénalité/Faute"
+ninth = "Pénalité (Carte Jaune)"
+tenth = "Pénalité (Carte Rouge)"
+
+[zones]
+first = "{your_team} 40m"
+second = "Adversaire 40m"
+third = "Milieu"
+
+[places]
+first = "Domicile "
+second = "Extérieur"
+
+[winner]
+first = "{your_team}"
+second = "Adversaire"
+
+[column_names]
+location = "Lieu du match"
+opponent = "Nom de l'adversaire"
+time = "Temps"
+half = "Mi-Temps"
+set = "Série"
+actor = "Evénement"
+action = "Action"
+area = "Zone"
+team_score = "Score de votre équipe"
+opponent_score = "Adversaire Score"

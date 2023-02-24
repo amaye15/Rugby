@@ -7,10 +7,15 @@ import polars as pl
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
     
-def highlight(series, threshold, column):
+def highlight(series, value, column) -> list:
     is_max = pd.Series(data=False, index=series.index)
-    is_max[column] = series.loc[column] == threshold
+    is_max[column] = series.loc[column] == value
     return ['background-color : #7EBAFE' if is_max.any() else 'background-color : #FF887F' for v in is_max]
+
+def determine_score(df, unique_actions, ) -> int:
+
+    return
+
 
 def main():
     # Toml Configuration
