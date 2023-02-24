@@ -56,8 +56,8 @@ def main():
     ###### Side Bar ######
     menu_choice = sl.sidebar.selectbox("Match", conf["pages"].values())
     
-    team = sl.selectbox("Choisissez votre équipe", conf["teams"].values)
-    adversaire = sl.selectbox("choisissez votre adversaire", conf["teams"].values)
+    team = sl.selectbox("Choisissez votre équipe", conf["teams"].values())
+    adversaire = sl.selectbox("choisissez votre adversaire", conf["teams"].values())
 
     if not_empty:
         conf["values"]["team_score"],conf["values"]["team_score"] = determine_score(match_data, team, adversaire)
