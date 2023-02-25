@@ -48,7 +48,7 @@ def main():
     # Set Scores
     team_score, adversaire_score = conf["values"]["team_score"], conf["values"]["team_score"]
     # Set Team
-    team, adversaire = "Nantes", "Adversaire"
+    team_v1, adversaire_v1 = "Nantes", "Adversaire"
 
     ###### Image ######
     right, center, left = sl.columns([1, 1, 1])
@@ -61,7 +61,7 @@ def main():
     menu_choice = sl.sidebar.selectbox("Match", conf["pages"].values())
 
     if not_empty:
-        team, adversaire = match_data["Nom de l'équipe"][-1], match_data["Nom de l'adversaire"][-1]
+        team_v1, adversaire_v1 = match_data["Nom de l'équipe"][-1], match_data["Nom de l'adversaire"][-1]
 
 
     # Determine Scores
@@ -76,12 +76,12 @@ def main():
         left, _, right = sl.columns([1, 1, 1])
 
         with left:
-            sl.markdown(f'''<p style="font-family:sans-serif; color:#3392FF; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{team}"}</p>''', unsafe_allow_html=True)
+            sl.markdown(f'''<p style="font-family:sans-serif; color:#3392FF; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{team_v1}"}</p>''', unsafe_allow_html=True)
             sl.markdown(f'''<p style="font-family:sans-serif; color:#3392FF; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{team_score}"}</p>''', unsafe_allow_html=True)
             #components.html(conf["html"["string_one"]])
             
         with right:
-            sl.markdown(f'''<p style="font-family:sans-serif; color:#FF4233; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{adversaire}"}</p>''', unsafe_allow_html=True)
+            sl.markdown(f'''<p style="font-family:sans-serif; color:#FF4233; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{adversaire_v1}"}</p>''', unsafe_allow_html=True)
             sl.markdown(f'''<p style="font-family:sans-serif; color:#FF4233; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{adversaire_score}"}</p>''', unsafe_allow_html=True)
 
 ################################################################################################################################################################################################################################################
