@@ -133,9 +133,9 @@ def main():
             # Automatically determine series
             if match_data.height == 0:
                 series = 1
-            elif match_data["Possession"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage":
+            elif match_data["Actor"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage":
                 series = match_data["Série"][-1]
-            elif match_data["Possession"][-1] == ball_choice and match_data["Action"][-1] == "Coup de pied":
+            elif match_data["Actor"][-1] == ball_choice and match_data["Action"][-1] == "Coup de pied":
                 series = match_data["Série"][-1]
             else:
                 series = match_data["Série"][-1] + 1
@@ -144,17 +144,17 @@ def main():
             
             if match_data.height == 0:
                 event = 1
-            elif match_data["Possession"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Plaquage":
+            elif match_data["Actor"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Plaquage":
                 event = match_data["Evénement"][-1] + 1
-            elif match_data["Possession"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Coup de pied":
+            elif match_data["Actor"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Coup de pied":
                 event = match_data["Evénement"][-1] + 1
-            elif match_data["Possession"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Essai":
+            elif match_data["Actor"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Essai":
                 event = match_data["Evénement"][-1] + 1
-            elif match_data["Possession"][-1] == ball_choice and match_data["Action"][-1] == "Essai" and action_choice == "Transformation":
+            elif match_data["Actor"][-1] == ball_choice and match_data["Action"][-1] == "Essai" and action_choice == "Transformation":
                 event = match_data["Evénement"][-1] + 1
-            elif match_data["Possession"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Drop":
+            elif match_data["Actor"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Drop":
                 event = match_data["Evénement"][-1] + 1
-            elif match_data["Possession"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Pénalité/Faute":
+            elif match_data["Actor"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Pénalité/Faute":
                 event = match_data["Evénement"][-1] + 1
             else:
                 event = 1
@@ -188,7 +188,7 @@ def main():
         #st.markdown('<style>div[title="OK"] { color: green; } div[title="KO"] { color: red; } .data:hover{ background:rgb(243 246 255)}</style>', unsafe_allow_html=True)
         #'background-color : #3392FF' if match_data[["Possession"]] == "Nantes" else 'background-color : #FF4233'
         if not_empty:
-            sl.dataframe(match_data[["Série", "Evénement", "Possession", "Action", "Zone"]].to_pandas().style.apply(highlight, threshold="Nantes", column=["Possession"], axis=1), use_container_width=True)
+            sl.dataframe(match_data[["Série", "Plaquage", "Actor", "Action", "Zone"]].to_pandas().style.apply(highlight, value="Nantes", column=["Actor"], axis=1), use_container_width=True)
         
             ### Delete Row ###
             left, _, _ = sl.columns([1.3, 2, 2])
