@@ -146,17 +146,17 @@ def main():
             if match_data.height == 0:
                 event = 1
             elif match_data["Actor"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Plaquage":
-                event = match_data["Evénement"][-1] + 1
+                event = match_data["Plaquage"][-1] + 1
             elif match_data["Actor"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Coup de pied":
-                event = match_data["Evénement"][-1] + 1
+                event = match_data["Plaquage"][-1] + 1
             elif match_data["Actor"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Essai":
-                event = match_data["Evénement"][-1] + 1
+                event = match_data["Plaquage"][-1] + 1
             elif match_data["Actor"][-1] == ball_choice and match_data["Action"][-1] == "Essai" and action_choice == "Transformation":
-                event = match_data["Evénement"][-1] + 1
+                event = match_data["Plaquage"][-1] + 1
             elif match_data["Actor"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Drop":
-                event = match_data["Evénement"][-1] + 1
+                event = match_data["Plaquage"][-1] + 1
             elif match_data["Actor"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Pénalité/Faute":
-                event = match_data["Evénement"][-1] + 1
+                event = match_data["Plaquage"][-1] + 1
             else:
                 event = 1
 
