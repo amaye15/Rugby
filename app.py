@@ -14,6 +14,7 @@ def highlight(series, value, column) -> list:
     return ['background-color : #7EBAFE' if is_max.any() else 'background-color : #FF887F' for _ in is_max]
 
 def determine_score(df, team: str, adversaire: str, default_score: int = 0) -> tuple:
+    print(df["Action"].unique(), flush = True)
     # Get Unique Actions    
     unique_actions = df["Action"].unique()
     # Get Conditions
@@ -26,8 +27,8 @@ def determine_score(df, team: str, adversaire: str, default_score: int = 0) -> t
         team_filter = (df["Actor"] == team)
         adversaire_filter = (df["Actor"] == adversaire)
         # Determine Score
-        team_score = sum(team_filter & (df["Action"] == "Essai")) * 4 + sum(team_filter &  (df["Action"] == "Transformation")) * 6 + sum(team_filter & (df["Action"] == "Drop"))
-        adversaire_score = sum(adversaire_filter & (df["Action"] == "Essai")) * 4 + sum(adversaire_filter & (df["Action"] == "Transformation")) * 6 + sum(adversaire_filter & (df["Action"] == "Drop"))
+        team_score = sum(team_filter & (df["Action"] == "Essai")) * 4 + sum(team_filter &  (df["Action"] == "Transformation")) * 2 + sum(team_filter & (df["Action"] == "Drop"))
+        adversaire_score = sum(adversaire_filter & (df["Action"] == "Essai")) * 4 + sum(adversaire_filter & (df["Action"] == "Transformation")) * 2 + sum(adversaire_filter & (df["Action"] == "Drop"))
         return (team_score , adversaire_score)
     return (default_score, default_score)
 
