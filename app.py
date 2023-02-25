@@ -40,7 +40,7 @@ def main():
     # gc = gspread.service_account(filename="cred.json")
     gc = gspread.service_account_from_dict(dict(sl.secrets["config"]))
     match_worksheet = gc.open_by_url(conf["url"]["match"]).sheet1
-    match_data = pl.DataFrame(match_worksheet.get_all_records())
+    match_data = pl.DataFrame(match_worksheet.get_all_records(), schema=conf["column_names"])
 
     # Empty Dataframe Condition
     not_empty = match_data.height != 0
@@ -167,31 +167,15 @@ def main():
             else:
                 half = "Deuxième"
 
+            match_values = [place_choice, team, adversaire, dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), half,
+                            series, event, ball_choice, action_choice, zone_choice, team_score, adversaire_score]
+
             if not_empty:
-                # Add Data
-                match_data = match_data.extend(pl.DataFrame({"Lieu du match": place_choice,
-                            "Nom de l'adversaire": adversaire,
-                            "Temps": dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                            "Mi-Temps": half,
-                            "Série": series,
-                            "Possession": ball_choice,
-                            "Evénement": event, 
-                            "Action": action_choice, 
-                            "Zone": zone_choice,
-                            "Nantes Score": team_score,
-                            "Adversaire Score": adversaire_score}))
+                # Extend Dataframe
+                match_data = match_data.extend(pl.DataFrame(dict(zip(conf["column_names"].values(), match_values))))
             else:
-                match_data = pl.DataFrame({"Lieu du match": place_choice,
-                            "Nom de l'adversaire": adversaire,
-                            "Temps": dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                            "Mi-Temps": half,
-                            "Série": series,
-                            "Possession": ball_choice,
-                            "Evénement": event, 
-                            "Action": action_choice, 
-                            "Zone": zone_choice,
-                            "Nantes Score": team_score,
-                            "Adversaire Score": adversaire_score})
+                # Create Dataframes
+                match_data = pl.DataFrame(dict(zip(conf["column_names"].values(), match_values)))
             
             match_data = match_data.to_pandas()
             match_worksheet.update([match_data.columns.to_list()] + match_data.values.tolist())
@@ -221,7 +205,7 @@ def main():
         sl.subheader("Fin du match")
         left_v2, _, _ = sl.columns([1.35, 1, 1])
         with left_v2:
-            winner_choice = sl.selectbox("Winner", "tmp")
+            winner_choice = sl.selectbox("Winner", [team, adversaire])
             save_delete_button = sl.button("Enregistrer et supprimer les résultats")
         # Save match data to historical data
         if save_delete_button:

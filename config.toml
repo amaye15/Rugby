@@ -43,17 +43,15 @@ middle = "Milieu"
 first = "Domicile "
 second = "Extérieur"
 
-[winner]
-first = "{your_team}"
-second = "Adversaire"
-
 [column_names]
 location = "Lieu du match"
+team = "Nom de l'équipe"
 opponent = "Nom de l'adversaire"
 time = "Temps"
 half = "Mi-Temps"
 set = "Série"
-actor = "Evénement"
+event_count = "Plaquage"
+actor = "Actor"
 action = "Action"
 area = "Zone"
 team_score = "Équipe Score"
