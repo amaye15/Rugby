@@ -69,7 +69,7 @@ def main():
 
     # Determine Scores
     if not_empty:
-        conf["values"]["team_score"], conf["values"]["team_score"] = determine_score(match_data, team, adversaire)
+        team_score, adversaire_score = determine_score(match_data, team, adversaire)
 
 ################################################################################################################################################################################################################################################
 
@@ -80,12 +80,12 @@ def main():
 
         with left:
             sl.markdown(f'''<p style="font-family:sans-serif; color:#3392FF; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{team}"}</p>''', unsafe_allow_html=True)
-            sl.markdown(f'''<p style="font-family:sans-serif; color:#3392FF; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{conf['values']['team_score']}"}</p>''', unsafe_allow_html=True)
+            sl.markdown(f'''<p style="font-family:sans-serif; color:#3392FF; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{team_score}"}</p>''', unsafe_allow_html=True)
             #components.html(conf["html"["string_one"]])
             
         with right:
             sl.markdown(f'''<p style="font-family:sans-serif; color:#FF4233; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{adversaire}"}</p>''', unsafe_allow_html=True)
-            sl.markdown(f'''<p style="font-family:sans-serif; color:#FF4233; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{conf['values']['adversaire_score']}"}</p>''', unsafe_allow_html=True)
+            sl.markdown(f'''<p style="font-family:sans-serif; color:#FF4233; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{adversaire_score}"}</p>''', unsafe_allow_html=True)
 
 ################################################################################################################################################################################################################################################
     
