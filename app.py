@@ -107,7 +107,6 @@ def main():
         # Home or Away Game
         place_choice = sl.selectbox("Lieu du match", conf["places"].values())
 
-
         ### During Match ###
         sl.subheader("Pendant le match")
 
@@ -141,7 +140,7 @@ def main():
             else:
                 series = match_data["Série"][-1] + 1
 
-            # Automatically determine series
+            # Automatically determine event
             
             if match_data.height == 0:
                 event = 1
@@ -167,10 +166,11 @@ def main():
                 half = "Première"
             else:
                 half = "Deuxième"
+
             if not_empty:
                 # Add Data
                 match_data = match_data.extend(pl.DataFrame({"Lieu du match": place_choice,
-                            "Nom de l'adversaire": team_choice,
+                            "Nom de l'adversaire": adversaire,
                             "Temps": dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                             "Mi-Temps": half,
                             "Série": series,
@@ -178,11 +178,11 @@ def main():
                             "Evénement": event, 
                             "Action": action_choice, 
                             "Zone": zone_choice,
-                            "Nantes Score": nantes_score,
+                            "Nantes Score": team_score,
                             "Adversaire Score": adversaire_score}))
             else:
                 match_data = pl.DataFrame({"Lieu du match": place_choice,
-                            "Nom de l'adversaire": team_choice,
+                            "Nom de l'adversaire": adversaire,
                             "Temps": dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                             "Mi-Temps": half,
                             "Série": series,
@@ -190,7 +190,7 @@ def main():
                             "Evénement": event, 
                             "Action": action_choice, 
                             "Zone": zone_choice,
-                            "Nantes Score": nantes_score,
+                            "Nantes Score": team_score,
                             "Adversaire Score": adversaire_score})
             
             match_data = match_data.to_pandas()
@@ -221,7 +221,7 @@ def main():
         sl.subheader("Fin du match")
         left_v2, _, _ = sl.columns([1.35, 1, 1])
         with left_v2:
-            winner_choice = sl.selectbox("Winner", winner)
+            winner_choice = sl.selectbox("Winner", "tmp")
             save_delete_button = sl.button("Enregistrer et supprimer les résultats")
         # Save match data to historical data
         if save_delete_button:
