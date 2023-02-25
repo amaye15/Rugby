@@ -36,9 +36,8 @@ ninth = "Pénalité (Carte Jaune)"
 tenth = "Pénalité (Carte Rouge)"
 
 [zones]
-first = "{your_team} 40m"
-second = "Adversaire 40m"
-third = "Milieu"
+meters = "40m"
+middle = "Milieu"
 
 [places]
 first = "Domicile "

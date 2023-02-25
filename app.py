@@ -90,7 +90,7 @@ def main():
     
     if menu_choice == "Données des Match":
 
-        left, _, right = sl.columns([1, 1, 1])
+        left, center, right = sl.columns([1, 1, 1])
         
         with left:
             sl.markdown(f'''<p style="font-family:sans-serif; color:#3392FF; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{team}"}</p>''', unsafe_allow_html=True)
@@ -104,7 +104,7 @@ def main():
         ### Before Match ###
         sl.subheader("Avant le match")
 
-        left, right = sl.columns([1, 1])
+        left, center, right = sl.columns([1, 1, 1])
 
         with left:
             # Home or Away Game
@@ -118,20 +118,21 @@ def main():
         sl.subheader("Pendant le match")
 
         #left,center, right = sl.columns([1, 1, 1])
-        left, right = sl.columns([1,1])
-        #with left:
+        left, center, right = sl.columns([1, 1, 1])
+        with left:
             # Possesion of the ball
-            #ball = ["Nantes", "Adversaire"]
-            #ball_choice = sl.selectbox("Possession de balle", ball)
+            ball_choice = sl.selectbox("Qui a fait l'action ?", [team, adversaire])
 
         #with center:
         with left:
             # Action or Event taken place
-            action_choice = sl.selectbox("Action", conf["actions"].values())
+            action_choice = sl.selectbox("Quelle action s'est passée ?", conf["actions"].values())
 
         with right:
             # Zone of field
-            zone_choice = sl.selectbox("Zone", zone)
+            zone_choice = sl.selectbox("Où l'action s'est-elle déroulée ?", [team + " " + conf["actions"]["meters"],
+                                                                             adversaire + " " + conf["actions"]["meters"],
+                                                                             conf["actions"]["middle"]])
         
         # Update Results
         if sl.button("Mise à jour des résultats"):
@@ -154,11 +155,11 @@ def main():
                 event = match_data["Evénement"][-1] + 1
             elif match_data["Possession"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Coup de pied":
                 event = match_data["Evénement"][-1] + 1
-            elif match_data["Possession"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Essai (4pt)":
+            elif match_data["Possession"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Essai":
                 event = match_data["Evénement"][-1] + 1
-            elif match_data["Possession"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Essai et Transformation (6pt)":
+            elif match_data["Possession"][-1] == ball_choice and match_data["Action"][-1] == "Essai" and action_choice == "Transformation":
                 event = match_data["Evénement"][-1] + 1
-            elif match_data["Possession"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Drop (1pt)":
+            elif match_data["Possession"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Drop":
                 event = match_data["Evénement"][-1] + 1
             elif match_data["Possession"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Pénalité/Faute":
                 event = match_data["Evénement"][-1] + 1
