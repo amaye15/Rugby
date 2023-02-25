@@ -103,16 +103,10 @@ def main():
 
         ### Before Match ###
         sl.subheader("Avant le match")
+        
+        # Home or Away Game
+        place_choice = sl.selectbox("Lieu du match", conf["places"].values())
 
-        left, center, right = sl.columns([1, 1, 1])
-
-        with left:
-            # Home or Away Game
-            place_choice = sl.selectbox("Lieu du match", conf["places"].values())
-
-        with right:
-            # Opponent
-            team_choice = sl.selectbox("Nom de l'adversaire", conf["teams"].values())
 
         ### During Match ###
         sl.subheader("Pendant le match")
@@ -124,15 +118,15 @@ def main():
             ball_choice = sl.selectbox("Qui a fait l'action ?", [team, adversaire])
 
         #with center:
-        with left:
+        with center:
             # Action or Event taken place
             action_choice = sl.selectbox("Quelle action s'est passée ?", conf["actions"].values())
 
         with right:
             # Zone of field
-            zone_choice = sl.selectbox("Où l'action s'est-elle déroulée ?", [team + " " + conf["actions"]["meters"],
-                                                                             adversaire + " " + conf["actions"]["meters"],
-                                                                             conf["actions"]["middle"]])
+            zone_choice = sl.selectbox("Où l'action s'est-elle déroulée ?", [team + " " + conf["zones"]["meters"],
+                                                                             adversaire + " " + conf["zones"]["meters"],
+                                                                             conf["zones"]["middle"]])
         
         # Update Results
         if sl.button("Mise à jour des résultats"):
