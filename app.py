@@ -40,7 +40,7 @@ def main():
     # gc = gspread.service_account(filename="cred.json")
     gc = gspread.service_account_from_dict(dict(sl.secrets["config"]))
     match_worksheet = gc.open_by_url(conf["url"]["match"]).sheet1
-    match_data = pl.DataFrame(match_worksheet.get_all_records(), schema=conf["column_names"])
+    match_data = pl.DataFrame(match_worksheet.get_all_records())
 
     # Empty Dataframe Condition
     not_empty = match_data.height != 0
