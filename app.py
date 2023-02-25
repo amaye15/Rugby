@@ -47,6 +47,8 @@ def main():
     not_empty = match_data.height != 0
     # Set Scores
     team_score, adversaire_score = conf["values"]["team_score"], conf["values"]["team_score"]
+    # Set Team
+    team, adversaire = "Nantes", "Adversaire"
 
     ###### Image ######
     right, center, left = sl.columns([1, 1, 1])
@@ -57,15 +59,10 @@ def main():
 
     ###### Side Bar ######
     menu_choice = sl.sidebar.selectbox("Match", conf["pages"].values())
-    
-    right, center, left = sl.columns([1, 1, 1])
-    
-    with right:
-        team = sl.selectbox("Choisissez votre équipe", list(conf["teams"].values())[:-1])
-    with left:
-        tmp = list(reversed(conf["teams"].values()))
-        tmp.remove(team)
-        adversaire = sl.selectbox("choisissez votre adversaire", tmp)
+
+    if not_empty:
+        team, adversaire = match_data["Nom de l'équipe"][-1], match_data["Nom de l'adversaire"][-1]
+
 
     # Determine Scores
     if not_empty:
@@ -95,18 +92,27 @@ def main():
         
         with left:
             sl.markdown(f'''<p style="font-family:sans-serif; color:#3392FF; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{team}"}</p>''', unsafe_allow_html=True)
-            sl.markdown(f'''<p style="font-family:sans-serif; color:#3392FF; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{conf['values']['team_score']}"}</p>''', unsafe_allow_html=True)
+            sl.markdown(f'''<p style="font-family:sans-serif; color:#3392FF; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{team_score}"}</p>''', unsafe_allow_html=True)
             #components.html(conf["html"["string_one"]])
             
         with right:
             sl.markdown(f'''<p style="font-family:sans-serif; color:#FF4233; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{adversaire}"}</p>''', unsafe_allow_html=True)
-            sl.markdown(f'''<p style="font-family:sans-serif; color:#FF4233; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{conf['values']['adversaire_score']}"}</p>''', unsafe_allow_html=True)
+            sl.markdown(f'''<p style="font-family:sans-serif; color:#FF4233; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{adversaire_score}"}</p>''', unsafe_allow_html=True)
 
         ### Before Match ###
         sl.subheader("Avant le match")
-        
-        # Home or Away Game
-        place_choice = sl.selectbox("Lieu du match", conf["places"].values())
+
+        right, center, left = sl.columns([1, 1, 1])
+
+        with right:
+            team = sl.selectbox("Choisissez votre équipe", list(conf["teams"].values())[:-1])
+        with center:
+            tmp = list(reversed(conf["teams"].values()))
+            tmp.remove(team)
+            adversaire = sl.selectbox("choisissez votre adversaire", tmp)
+        with left:
+            # Home or Away Game
+            place_choice = sl.selectbox("Lieu du match", conf["places"].values())
 
         ### During Match ###
         sl.subheader("Pendant le match")
@@ -137,6 +143,8 @@ def main():
             elif match_data["Actor"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage":
                 series = match_data["Série"][-1]
             elif match_data["Actor"][-1] == ball_choice and match_data["Action"][-1] == "Coup de pied":
+                series = match_data["Série"][-1]
+            elif match_data["Actor"][-1] == ball_choice and match_data["Action"][-1] == "Essai":
                 series = match_data["Série"][-1]
             else:
                 series = match_data["Série"][-1] + 1
