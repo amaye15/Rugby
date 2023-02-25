@@ -14,13 +14,13 @@ def highlight(series, value, column) -> list:
     return ['background-color : #7EBAFE' if is_max.any() else 'background-color : #FF887F' for _ in is_max]
 
 def determine_score(df, team: str, adversaire: str, default_score: int = 0) -> tuple:
-    print(df["Action"].unique(), flush = True)
     # Get Unique Actions    
-    unique_actions = df["Action"].unique()
+    unique_actions = df["Action"].unique().to_list()
     # Get Conditions
     c1 = "Essai" in unique_actions
     c2 = "Transformation" in unique_actions
     c3 = "Drop" in unique_actions
+    print(unique_actions, c1, c2, c3, flush=True)
     ### Calculate Score ###
     if c1 or c2 or c3:
         # Filter by Team
