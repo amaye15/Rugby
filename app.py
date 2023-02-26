@@ -108,9 +108,9 @@ def main():
 
         ### Before Match ###
         #sl.subheader("Avant le match")
-        
-        # Home or Away Game
-        place_choice = sl.selectbox("Lieu du match", conf["places"].values())
+        with center:
+            # Home or Away Game
+            place_choice = sl.selectbox("Lieu du match", conf["places"].values())
 
         ### During Match ###
         sl.subheader("Pendant le match")
