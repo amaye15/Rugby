@@ -107,7 +107,7 @@ def main():
             sl.markdown(f'''<p style="font-family:sans-serif; color:#FF4233; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{adversaire_score}"}</p>''', unsafe_allow_html=True)
 
         ### Before Match ###
-        sl.subheader("Avant le match")
+        #sl.subheader("Avant le match")
         
         # Home or Away Game
         place_choice = sl.selectbox("Lieu du match", conf["places"].values())
