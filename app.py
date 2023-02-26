@@ -60,6 +60,8 @@ def main():
     ###### Side Bar ######
     menu_choice = sl.sidebar.selectbox("Match", conf["pages"].values())
     
+    ### Before Match ###
+    sl.subheader("Avant le match")
     right, center, left = sl.columns([1, 1, 1])
     
     with right:
@@ -67,7 +69,7 @@ def main():
     with left:
         tmp = list(reversed(conf["teams"].values()))
         tmp.remove(team)
-        adversaire = sl.selectbox("choisissez votre adversaire", tmp)
+        adversaire = sl.selectbox("Choisissez votre adversaire", tmp)
 
     # Determine Scores
     if not_empty:
