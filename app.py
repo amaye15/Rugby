@@ -70,6 +70,9 @@ def main():
         tmp = list(reversed(conf["teams"].values()))
         tmp.remove(team)
         adversaire = sl.selectbox("Choisissez votre adversaire", tmp)
+    with center:
+        # Home or Away Game
+        place_choice = sl.selectbox("Lieu du match", conf["places"].values())
 
     # Determine Scores
     if not_empty:
@@ -108,9 +111,9 @@ def main():
 
         ### Before Match ###
         #sl.subheader("Avant le match")
-        with center:
-            # Home or Away Game
-            place_choice = sl.selectbox("Lieu du match", conf["places"].values())
+        
+        # Home or Away Game
+        place_choice = sl.selectbox("Lieu du match", conf["places"].values())
 
         ### During Match ###
         sl.subheader("Pendant le match")
