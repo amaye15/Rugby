@@ -70,7 +70,7 @@ def main():
         tmp = list(reversed(conf["teams"].values()))
         tmp.remove(team)
         adversaire = sl.selectbox("Choisissez votre adversaire", tmp)
-    with center2:
+    with center:
         # Home or Away Game
         place_choice = sl.selectbox("Lieu du match", conf["places"].values())
 
