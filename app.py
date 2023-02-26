@@ -11,7 +11,7 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 def highlight(series, value, column) -> list:
     is_max = pd.Series(data=False, index=series.index)
     is_max[column] = series.loc[column] == value
-    return ['background-color : #3392FF; color: #1d1d1f' if is_max.any() else 'background-color : #FF4233; color: #1d1d1f' for _ in is_max]
+    return ['background-color : #3392FF' if is_max.any() else 'background-color : #FF4233' for _ in is_max]
 
 def determine_score(df, team: str, adversaire: str) -> tuple:
     team_score , adversaire_score = 0, 0
