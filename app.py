@@ -62,7 +62,7 @@ def main():
     
     ### Before Match ###
     sl.subheader("Avant le match")
-    right, center, left = sl.columns([1, 1, 1])
+    right, center2, left = sl.columns([1, 1, 1])
     
     with right:
         team = sl.selectbox("Choisissez votre équipe", list(conf["teams"].values())[:-1])
@@ -70,7 +70,7 @@ def main():
         tmp = list(reversed(conf["teams"].values()))
         tmp.remove(team)
         adversaire = sl.selectbox("Choisissez votre adversaire", tmp)
-    with center:
+    with center2:
         # Home or Away Game
         place_choice = sl.selectbox("Lieu du match", conf["places"].values())
 
