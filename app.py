@@ -76,18 +76,18 @@ def main():
 ################################################################################################################################################################################################################################################
 
     ### New Game ###
-    if menu_choice == "En Cours":
+    #if menu_choice == "En Cours":
 
-        left, _, right = sl.columns([1, 1, 1])
+        #left, _, right = sl.columns([1, 1, 1])
 
-        with left:
-            sl.markdown(f'''<p style="font-family:sans-serif; color:#3392FF; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{team}"}</p>''', unsafe_allow_html=True)
-            sl.markdown(f'''<p style="font-family:sans-serif; color:#3392FF; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{team_score}"}</p>''', unsafe_allow_html=True)
+        #with left:
+            #sl.markdown(f'''<p style="font-family:sans-serif; color:#3392FF; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{team}"}</p>''', unsafe_allow_html=True)
+            #sl.markdown(f'''<p style="font-family:sans-serif; color:#3392FF; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{team_score}"}</p>''', unsafe_allow_html=True)
             #components.html(conf["html"["string_one"]])
             
-        with right:
-            sl.markdown(f'''<p style="font-family:sans-serif; color:#FF4233; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{adversaire}"}</p>''', unsafe_allow_html=True)
-            sl.markdown(f'''<p style="font-family:sans-serif; color:#FF4233; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{adversaire_score}"}</p>''', unsafe_allow_html=True)
+        #with right:
+            #sl.markdown(f'''<p style="font-family:sans-serif; color:#FF4233; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{adversaire}"}</p>''', unsafe_allow_html=True)
+            #sl.markdown(f'''<p style="font-family:sans-serif; color:#FF4233; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{adversaire_score}"}</p>''', unsafe_allow_html=True)
 
 ################################################################################################################################################################################################################################################
     

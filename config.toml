@@ -7,7 +7,7 @@ match = "https://docs.google.com/spreadsheets/d/1F0NI-6_oi_geBDIJge9b6FXipMUyDw3
 history = "https://docs.google.com/spreadsheets/d/14vdIL4MwuOHDxsY6bb3rfkjbbVd4iXw2ZcIwG8rNBfo/edit"
 
 [pages]
-first = "En Cours"
+#first = "En Cours"
 second = "Données des Match"
 third = "Analyse des Match (Incomplet)"
 fourth = "Data Science (Incomplete)"
