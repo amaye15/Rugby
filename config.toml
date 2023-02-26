@@ -40,7 +40,7 @@ meters = "40m"
 middle = "Milieu"
 
 [places]
-first = "Domicile "
+first = "Domicile"
 second = "Extérieur"
 
 [column_names]
