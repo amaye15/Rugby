@@ -11,7 +11,7 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 def highlight(series, value, column) -> list:
     is_max = pd.Series(data=False, index=series.index)
     is_max[column] = series.loc[column] == value
-    return ['background-color : #7EBAFE' if is_max.any() else 'background-color : #FF887F' for _ in is_max]
+    return ['background-color : #3392FF' if is_max.any() else 'background-color : #FF4233' for _ in is_max]
 
 def determine_score(df, team: str, adversaire: str) -> tuple:
     team_score , adversaire_score = 0, 0
@@ -198,7 +198,7 @@ def main():
         #st.markdown('<style>div[title="OK"] { color: green; } div[title="KO"] { color: red; } .data:hover{ background:rgb(243 246 255)}</style>', unsafe_allow_html=True)
         #'background-color : #3392FF' if match_data[["Possession"]] == "Nantes" else 'background-color : #FF4233'
         if not_empty:
-            sl.dataframe(match_data[["Série", "Plaquage", "Actor", "Action", "Zone"]].to_pandas().style.apply(highlight, value="Nantes", column=["Actor"], axis=1), use_container_width=True)
+            sl.dataframe(match_data[["Actor", "Action", "Zone"]].to_pandas().style.apply(highlight, value="Nantes", column=["Actor"], axis=1), use_container_width=True)
         
             ### Delete Row ###
             left, _, _ = sl.columns([1.3, 2, 2])
