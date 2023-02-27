@@ -45,6 +45,24 @@ def determine_set(df, actor):
         series = df["Série"][-1] + 1
     return series
 
+def determine_tackle(df, actor, action):
+    if df.height == 0:
+        event = 1
+    elif df["Actor"][-1] == actor and df["Action"][-1] == "Plaquage" and action == "Plaquage":
+        event = df["Plaquage"][-1] + 1
+    elif df["Actor"][-1] == actor and df["Action"][-1] == "Plaquage" and action == "Coup de pied":
+        event = df["Plaquage"][-1] + 1
+    elif df["Actor"][-1] == actor and df["Action"][-1] == "Plaquage" and action == "Essai":
+        event = df["Plaquage"][-1] + 1
+    elif df["Actor"][-1] == actor and df["Action"][-1] == "Essai" and action == "Transformation":
+        event = df["Plaquage"][-1] + 1
+    elif df["Actor"][-1] == actor and df["Action"][-1] == "Plaquage" and action == "Drop":
+        event = df["Plaquage"][-1] + 1
+    elif df["Actor"][-1] == actor and df["Action"][-1] == "Plaquage" and action == "Pénalité/Faute":
+        event = df["Plaquage"][-1] + 1
+    else:
+        event = 1
+    return event
 
 def main():
     # Toml Configuration
@@ -92,22 +110,6 @@ def main():
         team_score, adversaire_score = determine_score(match_data, team, adversaire)
 
 ################################################################################################################################################################################################################################################
-
-    ### New Game ###
-    #if menu_choice == "En Cours":
-
-        #left, _, right = sl.columns([1, 1, 1])
-
-        #with left:
-            #sl.markdown(f'''<p style="font-family:sans-serif; color:#3392FF; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{team}"}</p>''', unsafe_allow_html=True)
-            #sl.markdown(f'''<p style="font-family:sans-serif; color:#3392FF; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{team_score}"}</p>''', unsafe_allow_html=True)
-            #components.html(conf["html"["string_one"]])
-            
-        #with right:
-            #sl.markdown(f'''<p style="font-family:sans-serif; color:#FF4233; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{adversaire}"}</p>''', unsafe_allow_html=True)
-            #sl.markdown(f'''<p style="font-family:sans-serif; color:#FF4233; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{adversaire_score}"}</p>''', unsafe_allow_html=True)
-
-################################################################################################################################################################################################################################################
     
     if menu_choice == "Données des Match":
 
@@ -116,22 +118,14 @@ def main():
         with left:
             sl.markdown(f'''<p style="font-family:sans-serif; color:#3392FF; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{team}"}</p>''', unsafe_allow_html=True)
             sl.markdown(f'''<p style="font-family:sans-serif; color:#3392FF; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{team_score}"}</p>''', unsafe_allow_html=True)
-            #components.html(conf["html"["string_one"]])
             
         with right:
             sl.markdown(f'''<p style="font-family:sans-serif; color:#FF4233; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{adversaire}"}</p>''', unsafe_allow_html=True)
             sl.markdown(f'''<p style="font-family:sans-serif; color:#FF4233; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{adversaire_score}"}</p>''', unsafe_allow_html=True)
 
-        ### Before Match ###
-        #sl.subheader("Avant le match")
-        
-        # Home or Away Game
-        #place_choice = sl.selectbox("Lieu du match", conf["places"].values())
-
         ### During Match ###
         sl.subheader("Pendant le match")
 
-        #left,center, right = sl.columns([1, 1, 1])
         left, center, right = sl.columns([1, 1, 1])
         with left:
             # Possesion of the ball
@@ -151,26 +145,11 @@ def main():
         # Update Results
         if sl.button("Mise à jour des résultats"):
             
+            # Automatically determine set
             series = determine_set(match_data, ball_choice)
 
             # Automatically determine event
-            
-            if match_data.height == 0:
-                event = 1
-            elif match_data["Actor"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Plaquage":
-                event = match_data["Plaquage"][-1] + 1
-            elif match_data["Actor"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Coup de pied":
-                event = match_data["Plaquage"][-1] + 1
-            elif match_data["Actor"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Essai":
-                event = match_data["Plaquage"][-1] + 1
-            elif match_data["Actor"][-1] == ball_choice and match_data["Action"][-1] == "Essai" and action_choice == "Transformation":
-                event = match_data["Plaquage"][-1] + 1
-            elif match_data["Actor"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Drop":
-                event = match_data["Plaquage"][-1] + 1
-            elif match_data["Actor"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage" and action_choice == "Pénalité/Faute":
-                event = match_data["Plaquage"][-1] + 1
-            else:
-                event = 1
+            event = determine_tackle(match_data, ball_choice, action_choice)
 
             # Automatically determine half
             if match_data.height == 0:
@@ -198,10 +177,13 @@ def main():
         
         # Show Data
         sl.subheader("\n Résultats")
-        #st.markdown('<style>div[title="OK"] { color: green; } div[title="KO"] { color: red; } .data:hover{ background:rgb(243 246 255)}</style>', unsafe_allow_html=True)
-        #'background-color : #3392FF' if match_data[["Possession"]] == "Nantes" else 'background-color : #FF4233'
+
         if not_empty:
-            sl.dataframe(match_data[["Actor", "Action", "Zone"]].to_pandas().style.apply(highlight, value="Nantes", column=["Actor"], axis=1), use_container_width=True)
+            sl.dataframe(match_data[["Actor", "Action", "Zone"]].to_pandas().style.apply(highlight, 
+                                                                                         value = "Nantes", 
+                                                                                         column = ["Actor"], 
+                                                                                         axis = 1), 
+                                                                                         use_container_width = True)
         
             ### Delete Row ###
             left, _, _ = sl.columns([1.3, 2, 2])
@@ -226,10 +208,6 @@ def main():
             # Match Data
             historical_worksheet = gc.open_by_url(conf["url"]["history"]).sheet1
             historical_data = pd.DataFrame(historical_worksheet.get_all_records())
-
-            # If empty, create empty dataframe
-            #if historical_data.height == 0:
-                #historical_data = pl.DataFrame(schema = "Lieu du match", "Nom de l'adversaire", "Temps", "Mi-Temps", "Série", "Possession",  "Plaquage", "Action", "Zone", "Nantes Score", "Adversaire Score", "Winner"])
         
             match_data = match_data.with_columns(pl.lit(winner_choice).alias("Winner"))
             historical_data = historical_data.append(match_data.to_pandas())
