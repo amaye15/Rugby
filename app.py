@@ -117,11 +117,11 @@ def main():
         
         with left:
             sl.markdown(conf["html"]["string_one"].format(value = team), unsafe_allow_html=True)
-            sl.markdown(f'''<p style="font-family:sans-serif; color:#3392FF; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{team_score}"}</p>''', unsafe_allow_html=True)
+            sl.markdown(conf["html"]["string_one"].format(value = team_score), unsafe_allow_html=True)
             
         with right:
-            sl.markdown(f'''<p style="font-family:sans-serif; color:#FF4233; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{adversaire}"}</p>''', unsafe_allow_html=True)
-            sl.markdown(f'''<p style="font-family:sans-serif; color:#FF4233; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{adversaire_score}"}</p>''', unsafe_allow_html=True)
+            sl.markdown(conf["html"]["string_two"].format(value = adversaire), unsafe_allow_html=True)
+            sl.markdown(conf["html"]["string_two"].format(value = adversaire_score), unsafe_allow_html=True)
 
         ### During Match ###
         sl.subheader("Pendant le match")
