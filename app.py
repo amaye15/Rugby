@@ -31,6 +31,20 @@ def determine_score(df, team: str, adversaire: str) -> tuple:
         adversaire_score = sum(adversaire_filter & (df["Action"] == "Essai")) * 4 + sum(adversaire_filter & (df["Action"] == "Transformation")) * 2 + sum(adversaire_filter & (df["Action"] == "Drop"))
     return (team_score , adversaire_score)
 
+def determine_set(df, actor):
+        # Automatically determine series
+    if df.height == 0:
+        series = 1
+    elif df["Actor"][-1] == actor and df["Action"][-1] == "Plaquage":
+        series = df["Série"][-1]
+    elif df["Actor"][-1] == actor and df["Action"][-1] == "Coup de pied":
+        series = df["Série"][-1]
+    elif df["Actor"][-1] == actor and df["Action"][-1] == "Essai":
+        series = df["Série"][-1]
+    else:
+        series = df["Série"][-1] + 1
+    return series
+
 
 def main():
     # Toml Configuration
@@ -137,17 +151,7 @@ def main():
         # Update Results
         if sl.button("Mise à jour des résultats"):
             
-            # Automatically determine series
-            if match_data.height == 0:
-                series = 1
-            elif match_data["Actor"][-1] == ball_choice and match_data["Action"][-1] == "Plaquage":
-                series = match_data["Série"][-1]
-            elif match_data["Actor"][-1] == ball_choice and match_data["Action"][-1] == "Coup de pied":
-                series = match_data["Série"][-1]
-            elif match_data["Actor"][-1] == ball_choice and match_data["Action"][-1] == "Essai":
-                series = match_data["Série"][-1]
-            else:
-                series = match_data["Série"][-1] + 1
+            series = determine_set(match_data, ball_choice)
 
             # Automatically determine event
             
