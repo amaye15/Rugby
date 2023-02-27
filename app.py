@@ -116,7 +116,7 @@ def main():
         left, center, right = sl.columns([1, 1, 1])
         
         with left:
-            sl.markdown(f'''<p style="font-family:sans-serif; color:#3392FF; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{team}"}</p>''', unsafe_allow_html=True)
+            sl.markdown(conf["html"]["string_one"].format(value = team), unsafe_allow_html=True)
             sl.markdown(f'''<p style="font-family:sans-serif; color:#3392FF; font-size: 36px; display: flex; align-items: center; justify-content: center;">{f"{team_score}"}</p>''', unsafe_allow_html=True)
             
         with right:

@@ -57,3 +57,6 @@ area = "Zone"
 team_score = "Équipe Score"
 opponent_score = "Adversaire Score"
 
+[html]
+string_one = '<p style="font-family:sans-serif; color:#3392FF; font-size: 36px; display: flex; align-items: center; justify-content: center;">{value}</p>'
+string_two = '<p style="font-family:sans-serif; color:#FF4233; font-size: 36px; display: flex; align-items: center; justify-content: center;">{value}</p>'
