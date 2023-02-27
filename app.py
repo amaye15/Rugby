@@ -21,7 +21,6 @@ def determine_score(df, team: str, adversaire: str) -> tuple:
     c1 = "Essai" in unique_actions
     c2 = "Transformation" in unique_actions
     c3 = "Drop" in unique_actions
-    print(unique_actions, c1, c2, c3, flush=True)
     ### Calculate Score ###
     if c1 or c2 or c3:
         # Filter by Team
