@@ -8,6 +8,7 @@ import warnings
 import streamlit.components.v1 as components
 warnings.simplefilter(action='ignore', category=FutureWarning)
     
+    
 def highlight(series, value, column) -> list:
     is_max = pd.Series(data=False, index=series.index)
     is_max[column] = series.loc[column] == value
